@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -160,30 +159,26 @@ const Create = () => {
   };
 
   return (
-    <div className="h-[100dvh] bg-pastel-gradient-vertical flex items-start justify-center">
-      <div className="w-full max-w-md h-full flex flex-col px-4">
-        <div className="flex-none pt-3">
-          <h1 className="text-lg font-semibold mb-3 text-center text-purple-800">
-            {id ? "Edit Sticker" : "Create Sticker"}
-          </h1>
-        </div>
+    <div className="min-h-[100dvh] bg-pastel-gradient-vertical">
+      <div className="mx-auto max-w-md px-4 pt-3 pb-20">
+        <h1 className="text-lg font-semibold mb-3 text-center text-purple-800">
+          {id ? "Edit Sticker" : "Create Sticker"}
+        </h1>
         
-        <div className="flex-1 overflow-y-auto pb-20">
-          <div className="space-y-4">
-            <StickerCustomizer 
-              config={stickerConfig}
-              onChange={setStickerConfig}
-            />
-            
-            <GratitudeForm 
-              gratitudeText={gratitudeText}
-              isPublic={isPublic}
-              onGratitudeChange={setGratitudeText}
-              onPublicChange={setIsPublic}
-              onSubmit={handleSubmit}
-              onCancel={() => navigate(-1)}
-            />
-          </div>
+        <div className="space-y-4">
+          <StickerCustomizer 
+            config={stickerConfig}
+            onChange={setStickerConfig}
+          />
+          
+          <GratitudeForm 
+            gratitudeText={gratitudeText}
+            isPublic={isPublic}
+            onGratitudeChange={setGratitudeText}
+            onPublicChange={setIsPublic}
+            onSubmit={handleSubmit}
+            onCancel={() => navigate(-1)}
+          />
         </div>
       </div>
     </div>
