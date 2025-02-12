@@ -130,25 +130,30 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4 pb-24">
-      <div className="max-w-2xl mx-auto">
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bot className="h-6 w-6 text-rose-500" />
-              Chat with Jari
+    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4 md:p-8 pb-24">
+      <div className="max-w-3xl mx-auto">
+        <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
+          <CardHeader className="border-b">
+            <CardTitle className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
+                <Bot className="h-6 w-6 text-rose-500" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800">Chat with Jari</h2>
+                <p className="text-sm text-gray-500 font-normal">Your AI gratitude companion</p>
+              </div>
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="h-[600px] flex flex-col">
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <CardContent className="p-0">
+            <div className="h-[70vh] flex flex-col">
+              <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 {messages.length === 0 && (
-                  <div className="flex items-start space-x-3">
-                    <div className="h-8 w-8 rounded-full bg-rose-100 flex items-center justify-center">
-                      <Bot className="h-5 w-5 text-rose-500" />
+                  <div className="flex items-start space-x-3 animate-fade-in">
+                    <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
+                      <Bot className="h-6 w-6 text-rose-500" />
                     </div>
-                    <div className="bg-gray-100 rounded-2xl p-4 max-w-[85%]">
-                      <p className="text-gray-800">
+                    <div className="bg-gray-100 rounded-2xl p-6 max-w-[85%] shadow-sm">
+                      <p className="text-gray-800 text-lg leading-relaxed">
                         Hi! I'm Jari, your gratitude assistant. I'm here to help you cultivate positivity and process your thoughts. How can I support you today?
                       </p>
                     </div>
@@ -158,28 +163,31 @@ const Chat = () => {
                   <div
                     key={msg.id}
                     className={cn(
-                      "flex items-start space-x-3",
+                      "flex items-start space-x-3 animate-fade-in",
                       msg.is_ai ? "justify-start" : "justify-end space-x-reverse"
                     )}
                   >
                     {msg.is_ai && (
-                      <div className="h-8 w-8 rounded-full bg-rose-100 flex items-center justify-center">
-                        <Bot className="h-5 w-5 text-rose-500" />
+                      <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
+                        <Bot className="h-6 w-6 text-rose-500" />
                       </div>
                     )}
                     <div
                       className={cn(
-                        "rounded-2xl p-4 max-w-[85%] relative group",
+                        "rounded-2xl p-4 max-w-[85%] relative group shadow-sm",
                         msg.is_ai 
                           ? "bg-gray-100 text-gray-800" 
                           : "bg-rose-500 text-white"
                       )}
                     >
-                      <p className="mb-1">{msg.message}</p>
+                      <p className={cn(
+                        "text-base leading-relaxed mb-2",
+                        msg.is_ai ? "text-gray-700" : "text-white"
+                      )}>{msg.message}</p>
                       <div 
                         className={cn(
-                          "text-xs opacity-70",
-                          msg.is_ai ? "text-gray-500" : "text-rose-50"
+                          "text-xs",
+                          msg.is_ai ? "text-gray-500" : "text-rose-100"
                         )}
                       >
                         {formatDate(msg.created_at)}
@@ -188,15 +196,15 @@ const Chat = () => {
                   </div>
                 ))}
                 {isTyping && (
-                  <div className="flex items-start space-x-3">
-                    <div className="h-8 w-8 rounded-full bg-rose-100 flex items-center justify-center">
-                      <Bot className="h-5 w-5 text-rose-500" />
+                  <div className="flex items-start space-x-3 animate-fade-in">
+                    <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
+                      <Bot className="h-6 w-6 text-rose-500" />
                     </div>
-                    <div className="bg-gray-100 rounded-2xl p-4">
+                    <div className="bg-gray-100 rounded-2xl p-4 shadow-sm">
                       <div className="flex space-x-2">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                        <div className="w-3 h-3 bg-gray-400 rounded-full animate-bounce" />
+                        <div className="w-3 h-3 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+                        <div className="w-3 h-3 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
                       </div>
                     </div>
                   </div>
@@ -204,19 +212,22 @@ const Chat = () => {
                 <div ref={messagesEndRef} />
               </div>
               
-              <div className="border-t p-4">
-                <div className="flex space-x-2">
+              <div className="border-t p-4 bg-white/50 backdrop-blur-sm">
+                <div className="flex space-x-3 max-w-3xl mx-auto">
                   <Input
                     placeholder="Type your message..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSend()}
                     disabled={isLoading}
-                    className="flex-1"
+                    className="flex-1 bg-white border-gray-200 focus:ring-rose-200"
                   />
                   <Button 
                     onClick={handleSend} 
-                    className="bg-rose-500 hover:bg-rose-600"
+                    className={cn(
+                      "bg-rose-500 hover:bg-rose-600 transition-colors shadow-lg hover:shadow-xl",
+                      isLoading && "opacity-50 cursor-not-allowed"
+                    )}
                     disabled={isLoading}
                   >
                     <Send className="h-4 w-4" />
