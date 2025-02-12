@@ -14,8 +14,11 @@ interface GratitudeFormProps {
 
 export const GratitudeForm = ({
   gratitudeText,
+  isPublic,
   onGratitudeChange,
-  onSubmit
+  onPublicChange,
+  onSubmit,
+  onCancel
 }: GratitudeFormProps) => {
   return (
     <div className="space-y-6">
@@ -29,12 +32,22 @@ export const GratitudeForm = ({
         />
       </div>
 
-      <Button 
-        onClick={onSubmit} 
-        className="w-full bg-violet-600 hover:bg-violet-700 text-white py-6"
-      >
-        Add to my Gratitude Jar
-      </Button>
+      <div className="space-y-4">
+        <Button 
+          onClick={onSubmit} 
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+        >
+          ✨ Add to my Gratitude Jar
+        </Button>
+        
+        <Button
+          onClick={onCancel}
+          variant="ghost"
+          className="w-full"
+        >
+          Cancel
+        </Button>
+      </div>
     </div>
   );
 };
