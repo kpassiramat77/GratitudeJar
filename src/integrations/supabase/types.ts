@@ -15,7 +15,13 @@ export type Database = {
           created_at: string
           id: string
           is_ai: boolean
+          keywords: string[] | null
           message: string
+          message_type: string | null
+          response_quality_score: number | null
+          sentiment: number | null
+          session_id: string | null
+          session_topic: string | null
           user_id: string
         }
         Insert: {
@@ -23,7 +29,13 @@ export type Database = {
           created_at?: string
           id?: string
           is_ai?: boolean
+          keywords?: string[] | null
           message: string
+          message_type?: string | null
+          response_quality_score?: number | null
+          sentiment?: number | null
+          session_id?: string | null
+          session_topic?: string | null
           user_id: string
         }
         Update: {
@@ -31,7 +43,13 @@ export type Database = {
           created_at?: string
           id?: string
           is_ai?: boolean
+          keywords?: string[] | null
           message?: string
+          message_type?: string | null
+          response_quality_score?: number | null
+          sentiment?: number | null
+          session_id?: string | null
+          session_topic?: string | null
           user_id?: string
         }
         Relationships: []
