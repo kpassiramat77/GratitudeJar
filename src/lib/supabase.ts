@@ -1,7 +1,11 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://lovable.supabase.co';
-const supabaseKey = 'eyJh...'; // This will be automatically injected by Lovable
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://lovable.supabase.co';
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+if (!supabaseKey) {
+  console.error('Supabase key is not defined');
+}
+
+export const supabase = createClient(supabaseUrl, supabaseKey || '');
