@@ -1,8 +1,7 @@
 
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 interface GratitudeFormProps {
   gratitudeText: string;
@@ -15,42 +14,27 @@ interface GratitudeFormProps {
 
 export const GratitudeForm = ({
   gratitudeText,
-  isPublic,
   onGratitudeChange,
-  onPublicChange,
-  onSubmit,
-  onCancel
+  onSubmit
 }: GratitudeFormProps) => {
   return (
-    <div className="space-y-4 pt-4 border-t">
+    <div className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="gratitude">What are you grateful for today?</Label>
-        <Input
-          id="gratitude"
-          placeholder="I'm grateful for..."
+        <Label className="text-lg">What are you grateful for?</Label>
+        <Textarea
+          placeholder="Express your gratitude..."
           value={gratitudeText}
           onChange={(e) => onGratitudeChange(e.target.value)}
-          className="min-h-[80px] resize-none py-2"
+          className="min-h-[120px] resize-none text-base"
         />
       </div>
 
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="public"
-          checked={isPublic}
-          onCheckedChange={onPublicChange}
-        />
-        <Label htmlFor="public">Make this public</Label>
-      </div>
-
-      <div className="flex space-x-2">
-        <Button variant="outline" onClick={onCancel} className="w-full">
-          Cancel
-        </Button>
-        <Button onClick={onSubmit} className="w-full bg-rose-500 hover:bg-rose-600">
-          Save
-        </Button>
-      </div>
+      <Button 
+        onClick={onSubmit} 
+        className="w-full bg-violet-600 hover:bg-violet-700 text-white py-6"
+      >
+        Add to my Gratitude Jar
+      </Button>
     </div>
   );
 };

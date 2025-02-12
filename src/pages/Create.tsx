@@ -1,11 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/lib/auth-store";
 import { StickerCustomizer, type StickerConfig } from "@/components/sticker/StickerCustomizer";
-import { stickerConfigToJson } from "@/utils/sticker-utils";
 import { GratitudeForm } from "@/components/gratitude/GratitudeForm";
 
 const Create = () => {
@@ -13,7 +12,7 @@ const Create = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [stickerConfig, setStickerConfig] = useState<StickerConfig>({
     mood: "happy",
-    color: "#F2FCE2",
+    color: "#BAE6FD",
     text: "",
   });
   
@@ -59,8 +58,8 @@ const Create = () => {
       if (error) throw error;
 
       toast({
-        title: "Gratitude saved",
-        description: "Your gratitude has been added to your jar",
+        title: "Added to your Gratitude Jar",
+        description: "Your moment of gratitude has been saved",
       });
       navigate("/jar");
     } catch (error: any) {
@@ -74,28 +73,24 @@ const Create = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4 pb-24">
-      <div className="max-w-md mx-auto">
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle>New Gratitude Entry</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <StickerCustomizer 
-              config={stickerConfig}
-              onChange={setStickerConfig}
-            />
-            
-            <GratitudeForm 
-              gratitudeText={gratitudeText}
-              isPublic={isPublic}
-              onGratitudeChange={setGratitudeText}
-              onPublicChange={setIsPublic}
-              onSubmit={handleSubmit}
-              onCancel={() => navigate(-1)}
-            />
-          </CardContent>
-        </Card>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-md mx-auto px-4 py-6">
+        <h1 className="text-2xl font-semibold mb-6">Create Sticker</h1>
+        <div className="space-y-8">
+          <StickerCustomizer 
+            config={stickerConfig}
+            onChange={setStickerConfig}
+          />
+          
+          <GratitudeForm 
+            gratitudeText={gratitudeText}
+            isPublic={isPublic}
+            onGratitudeChange={setGratitudeText}
+            onPublicChange={setIsPublic}
+            onSubmit={handleSubmit}
+            onCancel={() => navigate(-1)}
+          />
+        </div>
       </div>
     </div>
   );
