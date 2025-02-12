@@ -32,20 +32,12 @@ export const GratitudeForm = ({
         />
       </div>
 
-      <div className="space-y-2">
+      <div>
         <Button 
           onClick={onSubmit} 
           className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
         >
           ✨ Add to my Gratitude Jar
-        </Button>
-        
-        <Button
-          onClick={onCancel}
-          variant="ghost"
-          className="w-full py-2 text-sm"
-        >
-          Cancel
         </Button>
       </div>
     </div>
