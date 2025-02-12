@@ -80,10 +80,10 @@ const Index = () => {
                 <div className="absolute w-2 h-4 border-2 border-amber-700/80 rounded-full left-1/2 -translate-x-1/2 -translate-y-1"></div>
               </div>
 
-              <div className="absolute left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 w-32 h-12 bg-white/90 backdrop-blur-md flex items-center justify-center transform -rotate-2 rounded-xl border-2 border-white shadow-lg z-20">
-                <div className="text-gray-900 text-center font-['Comic_Sans_MS']">
-                  <div className="text-base font-medium leading-tight">gratitude</div>
-                  <div className="text-sm font-medium leading-tight">jar</div>
+              <div className="absolute left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 w-32 h-8 bg-white/90 backdrop-blur-md flex items-center justify-center transform -rotate-2 rounded-xl border-2 border-white shadow-lg z-20">
+                <div className="text-gray-900 text-center font-['Comic_Sans_MS'] flex items-center gap-1">
+                  <span className="text-base font-medium">gratitude jar</span>
+                  <Heart className="h-3.5 w-3.5 text-rose-500" />
                 </div>
               </div>
 
