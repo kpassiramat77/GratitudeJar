@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Heart, Send, Star, Smile, Gift, Flower, Leaf, User } from "lucide-react";
@@ -45,20 +46,20 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-pastel-gradient-vertical p-4">
+    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4">
       <div className="max-w-md mx-auto space-y-4">
         <div className="text-center pt-2 space-y-2 relative">
           <button
             onClick={() => navigate('/profile')}
-            className="absolute right-0 top-0 p-2 text-purple-600 hover:text-purple-800 transition-colors"
+            className="absolute right-0 top-0 p-2 text-gray-600 hover:text-rose-500 transition-colors"
           >
             <User className="h-6 w-6" />
           </button>
           <div className="flex justify-center">
-            <Star className="h-8 w-8 text-purple-500 animate-pulse" />
+            <Star className="h-8 w-8 text-rose-500 animate-pulse" />
           </div>
-          <h1 className="text-3xl font-bold text-purple-900">GratitudeJar</h1>
-          <p className="text-purple-700">Capture life's precious moments ✨</p>
+          <h1 className="text-3xl font-bold text-gray-900">GratitudeJar</h1>
+          <p className="text-gray-600">Capture life's precious moments ✨</p>
         </div>
 
         <div className="relative h-72 flex items-center justify-center">
@@ -130,15 +131,15 @@ const Index = () => {
 
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
           <CardHeader className="py-3">
-            <CardTitle className="flex items-center gap-2 text-lg text-purple-800">
-              <Smile className="h-4 w-4 text-purple-500" />
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Smile className="h-4 w-4 text-rose-500" />
               Today's Gratitude
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 pb-4">
             <Button 
               onClick={() => navigate('/create')} 
-              className="w-full bg-[#F4E7FF] hover:bg-[#F4E7FF]/80 text-purple-800 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
+              className="w-full bg-rose-500 hover:bg-rose-600 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
             >
               <PlusCircle className="mr-2 h-4 w-4" />
               Add New Entry
@@ -148,27 +149,47 @@ const Index = () => {
               <Button
                 variant="outline"
                 onClick={() => navigate('/jar')}
-                className="w-full border-2 hover:bg-[#F4E7FF]/30 hover:border-[#F4E7FF] transition-colors text-purple-700"
+                className="w-full border-2 hover:bg-rose-50 hover:border-rose-200 transition-colors"
               >
-                <Heart className="mr-2 h-3 w-3 text-purple-500" />
+                <Heart className="mr-2 h-3 w-3 text-rose-500" />
                 View Jar
               </Button>
               <Button
                 variant="outline"
                 onClick={() => navigate('/chat')}
-                className="w-full border-2 hover:bg-[#F4E7FF]/30 hover:border-[#F4E7FF] transition-colors text-purple-700"
+                className="w-full border-2 hover:bg-rose-50 hover:border-rose-200 transition-colors"
               >
-                <Send className="mr-2 h-3 w-3 text-purple-500" />
+                <Send className="mr-2 h-3 w-3 text-rose-500" />
                 Chat with Jari
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        <div className="text-center text-xs text-purple-600">
+        <div className="text-center text-xs text-gray-500">
           Start your gratitude journey today
         </div>
       </div>
+
+      <style>{`
+        .rounded-jar {
+          border-radius: 3rem 3rem 2.5rem 2.5rem;
+          transform: perspective(1000px) rotateY(-5deg);
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-8px);
+          }
+        }
+        
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 };

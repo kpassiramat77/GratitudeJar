@@ -11,11 +11,11 @@ const Navigation = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t">
       <Tabs value={currentPath} className="w-full max-w-md mx-auto">
-        <TabsList className="grid w-full grid-cols-4 bg-[#F4E7FF]/20">
+        <TabsList className="grid w-full grid-cols-4 bg-rose-50/50">
           <TabsTrigger
             value="/"
             onClick={() => navigate("/")}
-            className="data-[state=active]:bg-[#F4E7FF] hover:bg-[#F4E7FF]/50 flex flex-col items-center gap-1 py-2 text-purple-700"
+            className="data-[state=active]:bg-rose-100 hover:bg-rose-50 flex flex-col items-center gap-1 py-2 text-rose-700"
           >
             <Home className="h-5 w-5" />
             <span className="text-xs">Home</span>
@@ -23,7 +23,7 @@ const Navigation = () => {
           <TabsTrigger
             value="/create"
             onClick={() => navigate("/create")}
-            className="data-[state=active]:bg-[#F4E7FF] hover:bg-[#F4E7FF]/50 flex flex-col items-center gap-1 py-2 text-purple-700"
+            className="data-[state=active]:bg-rose-100 hover:bg-rose-50 flex flex-col items-center gap-1 py-2 text-rose-700"
           >
             <PlusCircle className="h-5 w-5" />
             <span className="text-xs">Add</span>
@@ -31,7 +31,7 @@ const Navigation = () => {
           <TabsTrigger
             value="/jar"
             onClick={() => navigate("/jar")}
-            className="data-[state=active]:bg-[#F4E7FF] hover:bg-[#F4E7FF]/50 flex flex-col items-center gap-1 py-2 text-purple-700"
+            className="data-[state=active]:bg-rose-100 hover:bg-rose-50 flex flex-col items-center gap-1 py-2 text-rose-700"
           >
             <div className="relative w-5 h-5">
               <div className="absolute inset-0 flex items-center justify-center">
@@ -45,7 +45,7 @@ const Navigation = () => {
           <TabsTrigger
             value="/chat"
             onClick={() => navigate("/chat")}
-            className="data-[state=active]:bg-[#F4E7FF] hover:bg-[#F4E7FF]/50 flex flex-col items-center gap-1 py-2 text-purple-700"
+            className="data-[state=active]:bg-rose-100 hover:bg-rose-50 flex flex-col items-center gap-1 py-2 text-rose-700"
           >
             <MessageCircle className="h-5 w-5" />
             <span className="text-xs">Chat</span>

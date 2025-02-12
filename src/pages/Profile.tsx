@@ -171,44 +171,44 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-pastel-gradient-vertical pb-24">
-      <div className="bg-white/80 backdrop-blur-sm">
+    <div className="min-h-screen bg-gray-50 pb-24">
+      <div className="bg-white">
         <div className="flex items-center justify-between p-6">
-          <h1 className="text-2xl font-bold text-purple-800">Profile</h1>
+          <h1 className="text-2xl font-bold">Profile</h1>
           <Button
             variant="ghost"
             onClick={() => navigate("/")}
-            className="text-purple-600 hover:text-purple-800"
+            className="text-gray-600 hover:text-gray-900"
           >
             ←
           </Button>
         </div>
         
         <div className="flex flex-col items-center pb-8">
-          <Avatar className="h-24 w-24 bg-[#F4E7FF] text-purple-700">
+          <Avatar className="h-24 w-24 bg-rose-500">
             {profile.avatar_url ? (
               <AvatarImage src={profile.avatar_url} alt="Profile" />
             ) : (
-              <AvatarFallback className="text-3xl">
+              <AvatarFallback className="text-3xl text-white">
                 {profile.email?.[0]?.toUpperCase() || "?"}
               </AvatarFallback>
             )}
           </Avatar>
-          <p className="mt-4 text-purple-700">{profile.email}</p>
+          <p className="mt-4 text-gray-600">{profile.email}</p>
         </div>
 
-        <div className="flex justify-around py-8 border-t border-b border-[#F4E7FF]">
+        <div className="flex justify-around py-8 border-t border-b">
           <div className="text-center">
-            <p className="text-3xl font-bold text-purple-800">{stats.total_stickers}</p>
-            <p className="text-sm text-purple-600">Total Stickers</p>
+            <p className="text-3xl font-bold">{stats.total_stickers}</p>
+            <p className="text-sm text-gray-500">Total Stickers</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-purple-800">{stats.favorites}</p>
-            <p className="text-sm text-purple-600">Favorites</p>
+            <p className="text-3xl font-bold">{stats.favorites}</p>
+            <p className="text-sm text-gray-500">Favorites</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-purple-800">{stats.days_streak}</p>
-            <p className="text-sm text-purple-600">Days Streak</p>
+            <p className="text-3xl font-bold">{stats.days_streak}</p>
+            <p className="text-sm text-gray-500">Days Streak</p>
           </div>
         </div>
 
@@ -217,13 +217,13 @@ const Profile = () => {
             <button
               key={index}
               onClick={item.onClick}
-              className="w-full flex items-center justify-between p-4 hover:bg-[#F4E7FF]/30 transition-colors rounded-lg"
+              className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors rounded-lg"
             >
-              <div className="flex items-center gap-3 text-purple-700">
+              <div className="flex items-center gap-3 text-gray-700">
                 {item.icon}
                 <span className="text-base">{item.label}</span>
               </div>
-              <ChevronRight className="h-5 w-5 text-purple-400" />
+              <ChevronRight className="h-5 w-5 text-gray-400" />
             </button>
           ))}
           
