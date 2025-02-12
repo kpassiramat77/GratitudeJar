@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/lib/auth-store";
 import { supabase } from "@/integrations/supabase/client";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { ChevronRight, Bell, Settings, HelpCircle, LogOut, UserCircle } from "lucide-react";
@@ -28,6 +28,7 @@ const Profile = () => {
     email: "",
     avatar_url: null,
   });
+  const [isLoading, setIsLoading] = useState(true);
   const [stats, setStats] = useState<Stats>({
     total_stickers: 0,
     favorites: 0,
@@ -43,6 +44,7 @@ const Profile = () => {
       return;
     }
     loadProfile();
+    loadStats();
   }, [user, navigate]);
 
   const loadProfile = async () => {
@@ -62,6 +64,66 @@ const Profile = () => {
       }
     } catch (error: any) {
       console.error("Error loading profile:", error);
+      toast({
+        title: "Error loading profile",
+        description: "Please try again later",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loadStats = async () => {
+    if (!user) return;
+    
+    try {
+      const { data: gratitudes, error } = await supabase
+        .from("gratitudes")
+        .select("id, is_favorite, created_at")
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+
+      if (gratitudes) {
+        const favorites = gratitudes.filter(g => g.is_favorite).length;
+        const total = gratitudes.length;
+        
+        // Calculate streak
+        const dates = gratitudes
+          .map(g => new Date(g.created_at).toDateString())
+          .sort()
+          .reverse();
+        
+        let streak = 0;
+        const today = new Date().toDateString();
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+        
+        if (dates[0] === today || dates[0] === yesterday) {
+          streak = 1;
+          let lastDate = new Date(dates[0]);
+          
+          for (let i = 1; i < dates.length; i++) {
+            const currentDate = new Date(dates[i]);
+            const diffDays = Math.floor((lastDate.getTime() - currentDate.getTime()) / 86400000);
+            
+            if (diffDays === 1) {
+              streak++;
+              lastDate = currentDate;
+            } else {
+              break;
+            }
+          }
+        }
+
+        setStats({
+          total_stickers: total,
+          favorites,
+          days_streak: streak,
+        });
+      }
+    } catch (error) {
+      console.error("Error loading stats:", error);
     }
   };
 
@@ -81,35 +143,56 @@ const Profile = () => {
     {
       icon: <UserCircle className="h-6 w-6" />,
       label: "Edit Profile",
-      onClick: () => navigate("/profile/edit"),
+      onClick: () => navigate("/"),
     },
     {
       icon: <Bell className="h-6 w-6" />,
       label: "Notifications",
-      onClick: () => navigate("/notifications"),
+      onClick: () => navigate("/"),
     },
     {
       icon: <Settings className="h-6 w-6" />,
       label: "Settings",
-      onClick: () => navigate("/settings"),
+      onClick: () => navigate("/"),
     },
     {
       icon: <HelpCircle className="h-6 w-6" />,
       label: "Help & Support",
-      onClick: () => navigate("/help"),
+      onClick: () => navigate("/"),
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-pulse text-gray-500">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
       <div className="bg-white">
-        <h1 className="p-6 text-2xl font-bold">Profile</h1>
+        <div className="flex items-center justify-between p-6">
+          <h1 className="text-2xl font-bold">Profile</h1>
+          <Button
+            variant="ghost"
+            onClick={() => navigate("/")}
+            className="text-gray-600 hover:text-gray-900"
+          >
+            ←
+          </Button>
+        </div>
         
         <div className="flex flex-col items-center pb-8">
-          <Avatar className="h-24 w-24 bg-purple-500">
-            <AvatarFallback className="text-3xl text-white">
-              {profile.email?.[0]?.toUpperCase() || "?"}
-            </AvatarFallback>
+          <Avatar className="h-24 w-24 bg-rose-500">
+            {profile.avatar_url ? (
+              <AvatarImage src={profile.avatar_url} alt="Profile" />
+            ) : (
+              <AvatarFallback className="text-3xl text-white">
+                {profile.email?.[0]?.toUpperCase() || "?"}
+              </AvatarFallback>
+            )}
           </Avatar>
           <p className="mt-4 text-gray-600">{profile.email}</p>
         </div>
