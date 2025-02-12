@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -34,6 +35,7 @@ const Create = () => {
         title: "Cannot save empty gratitude",
         description: "Please write something you're grateful for",
         variant: "destructive",
+        duration: 3000,
       });
       return;
     }
@@ -43,6 +45,7 @@ const Create = () => {
         title: "Authentication required",
         description: "Please sign in to save gratitudes",
         variant: "destructive",
+        duration: 3000,
       });
       return;
     }
@@ -62,6 +65,7 @@ const Create = () => {
       toast({
         title: "Added to your Gratitude Jar",
         description: "Your moment of gratitude has been saved",
+        duration: 2000, // Shorter duration for success message
       });
       navigate("/jar");
     } catch (error: any) {
@@ -70,6 +74,7 @@ const Create = () => {
         title: "Error saving gratitude",
         description: error.message,
         variant: "destructive",
+        duration: 3000,
       });
     }
   };
