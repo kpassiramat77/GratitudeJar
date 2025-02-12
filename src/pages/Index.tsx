@@ -12,25 +12,25 @@ const samplePrompts = [
 ];
 
 const sampleNotes = [
-  { icon: Heart, text: "Family dinner", color: "bg-rose-100" },
-  { icon: Gift, text: "A kind surprise", color: "bg-rose-100" },
-  { icon: Flower, text: "Garden blooming", color: "bg-rose-100" },
-  { icon: Leaf, text: "Peaceful walk", color: "bg-rose-100" },
-  { icon: Smile, text: "Friend's laugh", color: "bg-rose-100" },
+  { icon: Heart, text: "Family dinner", color: "bg-purple-100" },
+  { icon: Gift, text: "A kind surprise", color: "bg-purple-100" },
+  { icon: Flower, text: "Garden blooming", color: "bg-purple-100" },
+  { icon: Leaf, text: "Peaceful walk", color: "bg-purple-100" },
+  { icon: Smile, text: "Friend's laugh", color: "bg-purple-100" },
 ];
 
 const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-rose-100/30 p-4 pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-purple-100/30 p-4 pb-24">
       <div className="max-w-md mx-auto space-y-8">
         <div className="text-center pt-8 space-y-4">
           <div className="flex justify-center">
-            <Star className="h-12 w-12 text-rose-500 animate-pulse" />
+            <Star className="h-12 w-12 text-purple-500 animate-pulse" />
           </div>
-          <h1 className="text-4xl font-bold text-rose-900 mb-2">GratitudeJar</h1>
-          <p className="text-rose-700 text-lg">Capture life's precious moments ✨</p>
+          <h1 className="text-4xl font-bold text-purple-900 mb-2">GratitudeJar</h1>
+          <p className="text-purple-700 text-lg">Capture life's precious moments ✨</p>
         </div>
 
         {/* Realistic Jar */}
@@ -38,13 +38,13 @@ const Index = () => {
           {/* Jar Container */}
           <div className="relative w-56 h-64">
             {/* Jar Lid */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-8 bg-gradient-to-r from-rose-200 via-white to-rose-200 rounded-t-xl border border-rose-100 z-20 shadow-sm">
-              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-24 h-2 bg-gradient-to-r from-rose-100 via-white to-rose-100 rounded-full"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-8 bg-gradient-to-r from-purple-200 via-white to-purple-200 rounded-t-xl border border-purple-100 z-20 shadow-sm">
+              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-24 h-2 bg-gradient-to-r from-purple-100 via-white to-purple-100 rounded-full"></div>
             </div>
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 h-4 bg-gradient-to-r from-rose-200 via-white to-rose-200 rounded-t-3xl border border-rose-100 shadow-sm"></div>
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 h-4 bg-gradient-to-r from-purple-200 via-white to-purple-200 rounded-t-3xl border border-purple-100 shadow-sm"></div>
             
             {/* Jar Body */}
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-56 bg-white/20 backdrop-blur-md rounded-2xl overflow-hidden shadow-[inset_0_0_20px_rgba(255,255,255,0.6)] border border-rose-100/40">
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-56 bg-white/20 backdrop-blur-md rounded-2xl overflow-hidden shadow-[inset_0_0_20px_rgba(255,255,255,0.6)] border border-purple-100/40">
               {/* Glass Reflections */}
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
               <div className="absolute top-0 left-1/4 w-1 h-full bg-white/40"></div>
@@ -70,10 +70,10 @@ const Index = () => {
                       animationDelay: `${index * 0.2}s`
                     }}
                   >
-                    <div className={`${note.color} p-2 rounded-lg shadow-md backdrop-blur-sm border border-rose-200/50 transform transition-transform hover:scale-110`}>
+                    <div className={`${note.color} p-2 rounded-lg shadow-md backdrop-blur-sm border border-purple-200/50 transform transition-transform hover:scale-110`}>
                       <div className="flex items-center gap-1">
-                        <Icon className="h-4 w-4 text-rose-700" />
-                        <span className="text-xs font-medium text-rose-700">{note.text}</span>
+                        <Icon className="h-4 w-4 text-purple-700" />
+                        <span className="text-xs font-medium text-purple-700">{note.text}</span>
                       </div>
                     </div>
                   </div>
@@ -86,7 +86,7 @@ const Index = () => {
                   {samplePrompts.map((prompt, index) => (
                     <p 
                       key={index}
-                      className="text-sm text-rose-700 font-medium opacity-0 animate-fade-in drop-shadow-sm"
+                      className="text-sm text-purple-700 font-medium opacity-0 animate-fade-in drop-shadow-sm"
                       style={{ 
                         animationDelay: `${index * 2}s`,
                         animationDuration: '4s',
@@ -101,24 +101,24 @@ const Index = () => {
             </div>
 
             {/* Jar Base */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-rose-200 via-white to-rose-200 rounded-b-lg border border-rose-100"></div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-purple-200 via-white to-purple-200 rounded-b-lg border border-purple-100"></div>
             
             {/* Jar Thread Detail */}
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-44 h-44 border-2 border-rose-100/20 rounded-full pointer-events-none"></div>
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-44 h-44 border-2 border-purple-100/20 rounded-full pointer-events-none"></div>
           </div>
         </div>
 
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Smile className="h-5 w-5 text-rose-500" />
+              <Smile className="h-5 w-5 text-purple-500" />
               Today's Gratitude
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <Button 
               onClick={() => navigate('/create')} 
-              className="w-full bg-rose-500 hover:bg-rose-600 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
+              className="w-full bg-purple-500 hover:bg-purple-600 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
             >
               <PlusCircle className="mr-2 h-4 w-4" />
               Add New Entry
@@ -128,24 +128,24 @@ const Index = () => {
               <Button
                 variant="outline"
                 onClick={() => navigate('/jar')}
-                className="w-full border-2 hover:bg-rose-50 hover:border-rose-200 transition-colors"
+                className="w-full border-2 hover:bg-purple-50 hover:border-purple-200 transition-colors"
               >
-                <Heart className="mr-2 h-4 w-4 text-rose-500" />
+                <Heart className="mr-2 h-4 w-4 text-purple-500" />
                 View Jar
               </Button>
               <Button
                 variant="outline"
                 onClick={() => navigate('/chat')}
-                className="w-full border-2 hover:bg-rose-50 hover:border-rose-200 transition-colors"
+                className="w-full border-2 hover:bg-purple-50 hover:border-purple-200 transition-colors"
               >
-                <Send className="mr-2 h-4 w-4 text-rose-500" />
+                <Send className="mr-2 h-4 w-4 text-purple-500" />
                 Chat with Jari
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        <div className="text-center text-sm text-rose-500">
+        <div className="text-center text-sm text-purple-500">
           Start your gratitude journey today
         </div>
       </div>
