@@ -8,12 +8,14 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuthStore } from "@/lib/auth-store";
 
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
 
   const handleSubmit = async () => {
     if (!gratitudeText.trim()) {
@@ -25,15 +27,23 @@ const Create = () => {
       return;
     }
 
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to save gratitudes",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('gratitudes')
-        .insert([
-          {
-            content: gratitudeText.trim(),
-            is_public: isPublic,
-          }
-        ]);
+        .insert({
+          content: gratitudeText.trim(),
+          is_public: isPublic,
+          user_id: user.id
+        });
 
       if (error) throw error;
 
