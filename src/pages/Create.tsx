@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,13 @@ const Create = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+
+  // Redirect to auth if not signed in
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async () => {
     if (!gratitudeText.trim()) {
