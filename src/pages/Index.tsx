@@ -80,26 +80,26 @@ const Index = () => {
                 <div className="absolute w-2 h-4 border-2 border-amber-700/80 rounded-full left-1/2 -translate-x-1/2 -translate-y-1"></div>
               </div>
 
-              <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-36 h-16 bg-white/80 backdrop-blur-md flex items-center justify-center transform -rotate-2 rounded-xl border-2 border-white shadow-lg">
-                <div className="text-gray-900 text-center">
-                  <div className="text-xl font-black tracking-wider">GRATITUDE</div>
-                  <div className="text-lg font-bold tracking-wide">JAR</div>
+              <div className="absolute left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 w-32 h-12 bg-white/90 backdrop-blur-md flex items-center justify-center transform -rotate-2 rounded-xl border-2 border-white shadow-lg z-20">
+                <div className="text-gray-900 text-center font-['Comic_Sans_MS']">
+                  <div className="text-base font-medium leading-tight">gratitude</div>
+                  <div className="text-sm font-medium leading-tight">jar</div>
                 </div>
               </div>
 
               {sampleNotes.map((note, index) => {
                 const positions = [
-                  "top-6 left-6",
-                  "top-8 right-6",
+                  "bottom-6 left-4",
+                  "bottom-8 right-4",
                   "bottom-16 left-8",
-                  "bottom-12 right-8",
-                  "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+                  "bottom-20 right-8",
+                  "bottom-24 left-1/2 -translate-x-1/2",
                 ];
                 
                 return (
                   <div
                     key={index}
-                    className={`absolute ${positions[index]} animate-float`}
+                    className={`absolute ${positions[index]} animate-float z-10`}
                     style={{ 
                       animationDelay: `${index * 0.5}s`,
                       animationDuration: '3s'
