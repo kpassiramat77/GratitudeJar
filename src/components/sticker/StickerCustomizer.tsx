@@ -87,13 +87,17 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
   const renderPreview = () => {
     return (
       <div 
-        className="relative w-32 h-32 mx-auto mb-6 rounded-full flex items-center justify-center shadow-lg"
+        className="relative w-36 h-36 mx-auto mb-6 rounded-full flex items-center justify-center shadow-lg"
         style={{ backgroundColor: config.color }}
       >
         <img 
           src={moodEmojis[config.mood].src}
           alt={moodEmojis[config.mood].alt}
-          className="w-20 h-20 transform-gpu transition-transform hover:scale-110"
+          className="w-24 h-24 object-contain transform-gpu transition-transform hover:scale-110"
+          onError={(e) => {
+            console.error(`Failed to load image: ${moodEmojis[config.mood].src}`);
+            e.currentTarget.style.opacity = '0.5';
+          }}
         />
       </div>
     );
@@ -125,7 +129,7 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
           .mood-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
+            gap: 0.75rem;
           }
 
           @media (min-width: 480px) {
@@ -153,7 +157,11 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
               <img 
                 src={src} 
                 alt={alt}
-                className="w-8 h-8 mx-auto mb-1" 
+                className="w-10 h-10 mx-auto mb-1.5 object-contain"
+                onError={(e) => {
+                  console.error(`Failed to load image: ${src}`);
+                  e.currentTarget.style.opacity = '0.5';
+                }}
               />
               <span className="text-xs text-gray-600 font-medium capitalize">{mood}</span>
             </button>
