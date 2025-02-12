@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -234,15 +235,17 @@ const Jar = () => {
       <h1 className="text-4xl font-bold mb-6 text-gray-900">My Gratitude Jar</h1>
       
       <div className="space-y-4 mb-6">
-        <div className="flex gap-2">
-          <Input
-            type="text"
-            placeholder="Search by content or emotion..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1"
-            icon={<Search className="w-4 h-4 text-gray-500" />}
-          />
+        <div className="flex gap-2 relative">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <Input
+              type="text"
+              placeholder="Search by content or emotion..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
         </div>
 
         <div className="flex gap-2 overflow-x-auto pb-4">
