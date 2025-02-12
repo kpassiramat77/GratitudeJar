@@ -11,6 +11,14 @@ const samplePrompts = [
   "Someone who made me smile...",
 ];
 
+const sampleNotes = [
+  { icon: Heart, text: "Family dinner", color: "bg-pink-100" },
+  { icon: Gift, text: "A kind surprise", color: "bg-purple-100" },
+  { icon: Flower, text: "Garden blooming", color: "bg-rose-100" },
+  { icon: Leaf, text: "Peaceful walk", color: "bg-emerald-100" },
+  { icon: Smile, text: "Friend's laugh", color: "bg-amber-100" },
+];
+
 const Index = () => {
   const navigate = useNavigate();
 
@@ -30,32 +38,47 @@ const Index = () => {
           {/* Jar Container */}
           <div className="relative w-56 h-64">
             {/* Jar Lid */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-8 bg-gradient-to-r from-gray-300 via-white to-gray-300 rounded-t-xl border border-gray-200 z-20"></div>
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 h-4 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-t-3xl border border-gray-100"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-8 bg-gradient-to-r from-gray-300 via-white to-gray-300 rounded-t-xl border border-gray-200 z-20 shadow-sm">
+              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-24 h-2 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-full"></div>
+            </div>
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 h-4 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-t-3xl border border-gray-100 shadow-sm"></div>
             
             {/* Jar Body */}
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-56 bg-white/20 backdrop-blur-md rounded-2xl overflow-hidden">
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-56 bg-white/20 backdrop-blur-md rounded-2xl overflow-hidden shadow-[inset_0_0_20px_rgba(255,255,255,0.6)] border border-white/40">
               {/* Glass Reflections */}
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
               <div className="absolute top-0 left-1/4 w-1 h-full bg-white/40"></div>
               <div className="absolute top-0 right-1/4 w-1 h-full bg-white/40"></div>
+              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(255,255,255,0.2)_100%)]"></div>
               
-              {/* Floating Stickers */}
-              <div className="absolute top-4 left-4 animate-bounce">
-                <Heart className="h-6 w-6 text-rose-400 drop-shadow-md" />
-              </div>
-              <div className="absolute top-8 right-6 animate-bounce delay-100">
-                <Gift className="h-6 w-6 text-purple-400 drop-shadow-md" />
-              </div>
-              <div className="absolute bottom-12 left-8 animate-bounce delay-200">
-                <Flower className="h-6 w-6 text-pink-400 drop-shadow-md" />
-              </div>
-              <div className="absolute bottom-8 right-8 animate-bounce delay-300">
-                <Leaf className="h-6 w-6 text-emerald-400 drop-shadow-md" />
-              </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">
-                <Smile className="h-8 w-8 text-amber-400 drop-shadow-lg" />
-              </div>
+              {/* Floating Note Stickers */}
+              {sampleNotes.map((note, index) => {
+                const Icon = note.icon;
+                const positions = [
+                  "top-4 left-4",
+                  "top-8 right-6",
+                  "bottom-20 left-8",
+                  "bottom-12 right-8",
+                  "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+                ];
+                return (
+                  <div
+                    key={index}
+                    className={`absolute ${positions[index]} transform rotate-${Math.floor(Math.random() * 20) - 10} animate-bounce`}
+                    style={{ 
+                      animationDuration: '3s',
+                      animationDelay: `${index * 0.2}s`
+                    }}
+                  >
+                    <div className={`${note.color} p-2 rounded-lg shadow-md backdrop-blur-sm border border-white/50 transform transition-transform hover:scale-110`}>
+                      <div className="flex items-center gap-1">
+                        <Icon className="h-4 w-4 text-gray-600" />
+                        <span className="text-xs font-medium text-gray-600">{note.text}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
 
               {/* Prompts Carousel */}
               <div className="absolute bottom-4 left-0 right-0 text-center">
@@ -79,6 +102,9 @@ const Index = () => {
 
             {/* Jar Base */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-b-lg border border-gray-100"></div>
+            
+            {/* Jar Thread Detail */}
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-44 h-44 border-2 border-white/20 rounded-full pointer-events-none"></div>
           </div>
         </div>
 
