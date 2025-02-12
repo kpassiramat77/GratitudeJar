@@ -160,12 +160,12 @@ const Create = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-pastel-gradient-vertical flex items-start justify-center py-4 px-4">
-      <div className="w-full max-w-md flex flex-col h-[calc(100dvh-2rem)] overflow-hidden">
-        <h1 className="text-xl font-semibold mb-4 text-center text-purple-800 flex-shrink-0">
+    <div className="min-h-screen bg-pastel-gradient-vertical flex items-start justify-center pt-4 sm:pt-8 px-4 pb-safe">
+      <div className="w-full max-w-md">
+        <h1 className="text-xl font-semibold mb-6 text-center text-purple-800">
           {id ? "Edit Sticker" : "Create Sticker"}
         </h1>
-        <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+        <div className="space-y-6">
           <StickerCustomizer 
             config={stickerConfig}
             onChange={setStickerConfig}
