@@ -35,7 +35,7 @@ const Create = () => {
         title: "Cannot save empty gratitude",
         description: "Please write something you're grateful for",
         variant: "destructive",
-        duration: 1000,
+        duration: 500,
       });
       return;
     }
@@ -45,7 +45,7 @@ const Create = () => {
         title: "Authentication required",
         description: "Please sign in to save gratitudes",
         variant: "destructive",
-        duration: 1000,
+        duration: 500,
       });
       return;
     }
@@ -65,7 +65,7 @@ const Create = () => {
       toast({
         title: "Added to your Gratitude Jar",
         description: "Your moment of gratitude has been saved",
-        duration: 1000,
+        duration: 500,
       });
       navigate("/jar");
     } catch (error: any) {
@@ -74,7 +74,7 @@ const Create = () => {
         title: "Error saving gratitude",
         description: error.message,
         variant: "destructive",
-        duration: 1000,
+        duration: 500,
       });
     }
   };
