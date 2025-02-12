@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/lib/auth-store";
 import { StickerCustomizer, type StickerConfig } from "@/components/sticker/StickerCustomizer";
 import { GratitudeForm } from "@/components/gratitude/GratitudeForm";
+import { stickerConfigToJson } from "@/utils/sticker-utils";
 
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
