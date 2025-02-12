@@ -55,6 +55,14 @@ const App = () => (
               }
             />
             <Route
+              path="/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <Create />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/jar"
               element={
                 <ProtectedRoute>

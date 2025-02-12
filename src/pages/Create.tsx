@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/lib/auth-store";
@@ -20,14 +20,53 @@ const Create = () => {
   
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { id } = useParams();
   const user = useAuthStore((state) => state.user);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!user) {
       navigate("/auth");
+      return;
     }
-  }, [user, navigate]);
+
+    if (id) {
+      // Fetch the gratitude entry if we're editing
+      const fetchGratitude = async () => {
+        const { data, error } = await supabase
+          .from('gratitudes')
+          .select('*')
+          .eq('id', id)
+          .eq('user_id', user.id)
+          .single();
+
+        if (error) {
+          toast({
+            title: "Error loading entry",
+            description: "Could not load the gratitude entry",
+            variant: "destructive",
+            duration: 500,
+          });
+          navigate('/jar');
+          return;
+        }
+
+        if (data) {
+          setGratitudeText(data.content);
+          setIsPublic(data.is_public);
+          if (data.sticker) {
+            setStickerConfig({
+              mood: data.sticker.mood || "happy",
+              color: data.sticker.color || "#F4E7FF",
+              text: "",
+            });
+          }
+        }
+      };
+
+      fetchGratitude();
+    }
+  }, [user, id, navigate, toast]);
 
   const handleSubmit = async () => {
     if (!gratitudeText.trim()) {
@@ -51,22 +90,44 @@ const Create = () => {
     }
 
     try {
-      const { error } = await supabase
-        .from('gratitudes')
-        .insert({
-          content: gratitudeText.trim(),
-          is_public: isPublic,
-          user_id: user.id,
-          sticker: stickerConfigToJson(stickerConfig)
+      if (id) {
+        // Update existing entry
+        const { error } = await supabase
+          .from('gratitudes')
+          .update({
+            content: gratitudeText.trim(),
+            is_public: isPublic,
+            sticker: stickerConfigToJson(stickerConfig)
+          })
+          .eq('id', id)
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+
+        toast({
+          title: "Entry updated",
+          description: "Your gratitude has been updated",
+          duration: 500,
         });
+      } else {
+        // Create new entry
+        const { error } = await supabase
+          .from('gratitudes')
+          .insert({
+            content: gratitudeText.trim(),
+            is_public: isPublic,
+            user_id: user.id,
+            sticker: stickerConfigToJson(stickerConfig)
+          });
 
-      if (error) throw error;
+        if (error) throw error;
 
-      toast({
-        title: "Added to your Gratitude Jar",
-        description: "Your moment of gratitude has been saved",
-        duration: 500,
-      });
+        toast({
+          title: "Added to your Gratitude Jar",
+          description: "Your moment of gratitude has been saved",
+          duration: 500,
+        });
+      }
       navigate("/jar");
     } catch (error: any) {
       console.error('Error saving gratitude:', error);
@@ -82,7 +143,9 @@ const Create = () => {
   return (
     <div className="min-h-screen bg-pastel-gradient-vertical flex items-start justify-center pt-4 sm:pt-8 px-4 pb-safe">
       <div className="w-full max-w-md">
-        <h1 className="text-xl font-semibold mb-6 text-center text-purple-800">Create Sticker</h1>
+        <h1 className="text-xl font-semibold mb-6 text-center text-purple-800">
+          {id ? "Edit Sticker" : "Create Sticker"}
+        </h1>
         <div className="space-y-6">
           <StickerCustomizer 
             config={stickerConfig}
