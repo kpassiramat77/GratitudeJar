@@ -2,15 +2,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/lib/auth-store";
 import { StickerCustomizer, type StickerConfig } from "@/components/sticker/StickerCustomizer";
 import { stickerConfigToJson } from "@/utils/sticker-utils";
+import { GratitudeForm } from "@/components/gratitude/GratitudeForm";
 
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
@@ -90,36 +87,15 @@ const Create = () => {
               config={stickerConfig}
               onChange={setStickerConfig}
             />
-
-            <div className="space-y-4 pt-4 border-t">
-              <div className="space-y-2">
-                <Label htmlFor="gratitude">What are you grateful for today?</Label>
-                <Input
-                  id="gratitude"
-                  placeholder="I'm grateful for..."
-                  value={gratitudeText}
-                  onChange={(e) => setGratitudeText(e.target.value)}
-                />
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="public"
-                  checked={isPublic}
-                  onCheckedChange={setIsPublic}
-                />
-                <Label htmlFor="public">Make this public</Label>
-              </div>
-
-              <div className="flex space-x-2">
-                <Button variant="outline" onClick={() => navigate(-1)} className="w-full">
-                  Cancel
-                </Button>
-                <Button onClick={handleSubmit} className="w-full bg-rose-500 hover:bg-rose-600">
-                  Save
-                </Button>
-              </div>
-            </div>
+            
+            <GratitudeForm 
+              gratitudeText={gratitudeText}
+              isPublic={isPublic}
+              onGratitudeChange={setGratitudeText}
+              onPublicChange={setIsPublic}
+              onSubmit={handleSubmit}
+              onCancel={() => navigate(-1)}
+            />
           </CardContent>
         </Card>
       </div>
