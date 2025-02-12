@@ -11,12 +11,35 @@ const samplePrompts = [
   "Someone who made me smile...",
 ];
 
+const moodEmojis = {
+  happy: { 
+    src: "/lovable-uploads/bbc2aca1-7202-42ce-8f8a-b82acb73be82.png",
+    alt: "Smiling face with sunglasses",
+  },
+  excited: { 
+    src: "/lovable-uploads/855693cd-9b32-4aa4-847f-721315c226fe.png",
+    alt: "Excited face with halo",
+  },
+  loved: { 
+    src: "/lovable-uploads/fb3c5db8-5a82-46cc-b05f-01beed3c07ca.png",
+    alt: "Face with hearts",
+  },
+  peaceful: { 
+    src: "/lovable-uploads/0026f39f-8263-45dc-bccf-4de6a340040c.png",
+    alt: "Peaceful smiling face",
+  },
+  grateful: { 
+    src: "/lovable-uploads/65f8700a-195d-4b4f-b8ae-73c0cac09a5c.png",
+    alt: "Grateful smiling face",
+  }
+};
+
 const sampleNotes = [
-  { icon: Heart, text: "Family dinner", color: "bg-pink-100" },
-  { icon: Gift, text: "A kind surprise", color: "bg-purple-100" },
-  { icon: Flower, text: "Garden blooming", color: "bg-rose-100" },
-  { icon: Leaf, text: "Peaceful walk", color: "bg-emerald-100" },
-  { icon: Smile, text: "Friend's laugh", color: "bg-amber-100" },
+  { mood: 'happy', text: "Family dinner" },
+  { mood: 'excited', text: "A kind surprise" },
+  { mood: 'loved', text: "Garden blooming" },
+  { mood: 'peaceful', text: "Peaceful walk" },
+  { mood: 'grateful', text: "Friend's laugh" },
 ];
 
 const Index = () => {
@@ -33,60 +56,72 @@ const Index = () => {
           <p className="text-gray-600 text-lg">Capture life's precious moments ✨</p>
         </div>
 
-        {/* Realistic Jar */}
-        <div className="relative h-80 flex items-center justify-center">
-          {/* Jar Container */}
-          <div className="relative w-56 h-64">
+        {/* 3D Jar */}
+        <div className="relative h-96 flex items-center justify-center perspective-1000">
+          <div className="relative w-64 h-80 transform-style-3d rotate-y-[-20deg] hover:rotate-y-0 transition-transform duration-500">
             {/* Jar Lid */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-8 bg-gradient-to-r from-gray-300 via-white to-gray-300 rounded-t-xl border border-gray-200 z-20 shadow-sm">
-              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-24 h-2 bg-gradient-to-r from-gray-100 via-white to-gray-100 rounded-full"></div>
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-40 h-8 bg-gradient-to-r from-gray-300 via-white to-gray-300 rounded-t-2xl transform-3d rotate-x-[20deg] z-20 shadow-xl">
+              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-32 h-2 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-full"></div>
             </div>
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 h-4 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-t-3xl border border-gray-100 shadow-sm"></div>
             
-            {/* Jar Body */}
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-56 bg-white/20 backdrop-blur-md rounded-2xl overflow-hidden shadow-[inset_0_0_20px_rgba(255,255,255,0.6)] border border-white/40">
-              {/* Glass Reflections */}
-              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-              <div className="absolute top-0 left-1/4 w-1 h-full bg-white/40"></div>
-              <div className="absolute top-0 right-1/4 w-1 h-full bg-white/40"></div>
-              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(255,255,255,0.2)_100%)]"></div>
+            {/* Jar Body - Main Container */}
+            <div className="absolute top-0 left-0 w-full h-full transform-style-3d">
+              {/* Front Face */}
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/40 transform-3d translate-z-[8rem]">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+              </div>
               
-              {/* Floating Note Stickers */}
+              {/* Back Face */}
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/40 transform-3d translate-z-[-8rem]">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+              </div>
+              
+              {/* Left Face */}
+              <div className="absolute inset-y-0 left-0 w-32 bg-white/10 backdrop-blur-sm transform-3d origin-left rotate-y-[90deg] translate-x-[-8rem]"></div>
+              
+              {/* Right Face */}
+              <div className="absolute inset-y-0 right-0 w-32 bg-white/10 backdrop-blur-sm transform-3d origin-right rotate-y-[-90deg] translate-x-[8rem]"></div>
+              
+              {/* Floating Stickers */}
               {sampleNotes.map((note, index) => {
-                const Icon = note.icon;
                 const positions = [
-                  "top-4 left-4",
-                  "top-8 right-6",
-                  "bottom-20 left-8",
-                  "bottom-12 right-8",
-                  "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+                  "top-8 left-8 translate-z-[4rem]",
+                  "top-12 right-8 translate-z-[2rem]",
+                  "bottom-24 left-12 translate-z-[6rem]",
+                  "bottom-16 right-10 translate-z-[3rem]",
+                  "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 translate-z-[5rem]",
                 ];
+                
                 return (
                   <div
                     key={index}
-                    className={`absolute ${positions[index]} transform rotate-${Math.floor(Math.random() * 20) - 10} animate-bounce`}
+                    className={`absolute ${positions[index]} transform-3d animate-float-3d`}
                     style={{ 
-                      animationDuration: '3s',
-                      animationDelay: `${index * 0.2}s`
+                      animationDelay: `${index * 0.5}s`,
+                      animationDuration: '3s'
                     }}
                   >
-                    <div className={`${note.color} p-2 rounded-lg shadow-md backdrop-blur-sm border border-white/50 transform transition-transform hover:scale-110`}>
-                      <div className="flex items-center gap-1">
-                        <Icon className="h-4 w-4 text-gray-600" />
-                        <span className="text-xs font-medium text-gray-600">{note.text}</span>
+                    <div className="bg-white/90 p-3 rounded-xl shadow-lg backdrop-blur-sm border border-white/50 transform transition-transform hover:scale-110">
+                      <div className="flex items-center gap-2">
+                        <img 
+                          src={moodEmojis[note.mood as keyof typeof moodEmojis].src}
+                          alt={moodEmojis[note.mood as keyof typeof moodEmojis].alt}
+                          className="w-6 h-6 object-contain"
+                        />
+                        <span className="text-sm font-medium text-gray-700">{note.text}</span>
                       </div>
                     </div>
                   </div>
                 );
               })}
 
-              {/* Prompts Carousel */}
-              <div className="absolute bottom-4 left-0 right-0 text-center">
-                <div className="animate-slide-up">
+              {/* Prompts */}
+              <div className="absolute bottom-8 left-0 right-0 text-center transform-3d translate-z-[6rem]">
+                <div className="animate-float-up">
                   {samplePrompts.map((prompt, index) => (
                     <p 
                       key={index}
-                      className="text-sm text-gray-600 font-medium opacity-0 animate-fade-in drop-shadow-sm"
+                      className="text-sm text-gray-600 font-medium opacity-0 animate-fade-in drop-shadow-lg"
                       style={{ 
                         animationDelay: `${index * 2}s`,
                         animationDuration: '4s',
@@ -99,12 +134,6 @@ const Index = () => {
                 </div>
               </div>
             </div>
-
-            {/* Jar Base */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-b-lg border border-gray-100"></div>
-            
-            {/* Jar Thread Detail */}
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-44 h-44 border-2 border-white/20 rounded-full pointer-events-none"></div>
           </div>
         </div>
 
@@ -151,6 +180,67 @@ const Index = () => {
       </div>
 
       <style>{`
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        
+        .transform-style-3d {
+          transform-style: preserve-3d;
+        }
+        
+        .transform-3d {
+          transform-style: preserve-3d;
+        }
+        
+        .rotate-y-[-20deg] {
+          transform: rotateY(-20deg);
+        }
+        
+        .rotate-x-[20deg] {
+          transform: rotateX(20deg);
+        }
+        
+        .translate-z-[2rem] {
+          transform: translateZ(2rem);
+        }
+        
+        .translate-z-[3rem] {
+          transform: translateZ(3rem);
+        }
+        
+        .translate-z-[4rem] {
+          transform: translateZ(4rem);
+        }
+        
+        .translate-z-[5rem] {
+          transform: translateZ(5rem);
+        }
+        
+        .translate-z-[6rem] {
+          transform: translateZ(6rem);
+        }
+        
+        .translate-z-[8rem] {
+          transform: translateZ(8rem);
+        }
+        
+        .translate-z-[-8rem] {
+          transform: translateZ(-8rem);
+        }
+        
+        @keyframes float-3d {
+          0%, 100% {
+            transform: translateZ(var(--z)) translateY(0);
+          }
+          50% {
+            transform: translateZ(var(--z)) translateY(-10px);
+          }
+        }
+        
+        .animate-float-3d {
+          animation: float-3d 3s ease-in-out infinite;
+        }
+        
         @keyframes slide-up {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-40px); }
