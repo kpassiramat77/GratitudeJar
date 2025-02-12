@@ -29,26 +29,26 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
       )}
     >
       {message.is_ai && (
-        <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
-          <Bot className="h-6 w-6 text-rose-500" />
+        <div className="h-10 w-10 rounded-full bg-[#F4E7FF] flex items-center justify-center">
+          <Bot className="h-6 w-6 text-purple-600" />
         </div>
       )}
       <div
         className={cn(
           "rounded-2xl p-4 max-w-[85%] relative group shadow-sm",
           message.is_ai 
-            ? "bg-gray-100 text-gray-800" 
-            : "bg-rose-500 text-white"
+            ? "bg-[#F4E7FF]/50 text-purple-900" 
+            : "bg-[#E8FFF9] text-purple-900"
         )}
       >
         <p className={cn(
           "text-base leading-relaxed mb-2",
-          message.is_ai ? "text-gray-700" : "text-white"
+          message.is_ai ? "text-purple-900" : "text-purple-900"
         )}>{message.message}</p>
         <div 
           className={cn(
             "text-xs",
-            message.is_ai ? "text-gray-500" : "text-rose-100"
+            message.is_ai ? "text-purple-600" : "text-purple-600"
           )}
         >
           {formatDate(message.created_at)}

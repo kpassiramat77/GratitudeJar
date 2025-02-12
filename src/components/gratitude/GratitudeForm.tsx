@@ -23,12 +23,12 @@ export const GratitudeForm = ({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <Label className="text-base">What are you grateful for?</Label>
+        <Label className="text-base text-purple-800">What are you grateful for?</Label>
         <Textarea
           placeholder="Express your gratitude..."
           value={gratitudeText}
           onChange={(e) => onGratitudeChange(e.target.value)}
-          className="min-h-[120px] resize-none text-base"
+          className="min-h-[120px] resize-none text-base focus:ring-[#F4E7FF] border-[#F4E7FF]/50"
         />
       </div>
 
@@ -36,7 +36,7 @@ export const GratitudeForm = ({
         <Button 
           onClick={onSubmit} 
           disabled={!gratitudeText.trim()}
-          className="w-full bg-rose-500 hover:bg-rose-600 text-white py-4 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-[#F4E7FF] hover:bg-[#F4E7FF]/80 text-purple-800 py-4 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           ✨ Add to my Gratitude Jar
         </Button>
@@ -44,7 +44,7 @@ export const GratitudeForm = ({
         <Button
           variant="ghost"
           onClick={onCancel}
-          className="w-full text-gray-600 hover:text-gray-800"
+          className="w-full text-purple-600 hover:text-purple-800 hover:bg-[#F4E7FF]/20"
         >
           Cancel
         </Button>
