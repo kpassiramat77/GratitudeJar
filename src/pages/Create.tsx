@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -7,6 +6,7 @@ import { useAuthStore } from "@/lib/auth-store";
 import { StickerCustomizer, type StickerConfig } from "@/components/sticker/StickerCustomizer";
 import { GratitudeForm } from "@/components/gratitude/GratitudeForm";
 import { stickerConfigToJson } from "@/utils/sticker-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
@@ -20,6 +20,7 @@ const Create = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!user) {
@@ -74,10 +75,10 @@ const Create = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-start justify-center pt-8">
-      <div className="w-full max-w-md px-4">
-        <h1 className="text-xl font-semibold mb-4">Create Sticker</h1>
-        <div className="space-y-4">
+    <div className="min-h-screen bg-white flex items-start justify-center pt-4 sm:pt-8 px-4 pb-safe">
+      <div className="w-full max-w-md">
+        <h1 className="text-xl font-semibold mb-6 text-center">Create Sticker</h1>
+        <div className="space-y-6">
           <StickerCustomizer 
             config={stickerConfig}
             onChange={setStickerConfig}
