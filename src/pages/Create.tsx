@@ -4,23 +4,36 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/lib/auth-store";
-import { StickerCustomizer, type StickerConfig } from "@/components/sticker/StickerCustomizer";
+import { StickerCustomizer, type StickerConfig, type Mood } from "@/components/sticker/StickerCustomizer";
 import { GratitudeForm } from "@/components/gratitude/GratitudeForm";
 import { stickerConfigToJson } from "@/utils/sticker-utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface StickerData {
-  mood: string;
+  mood: Mood;
   color: string;
   text?: string;
 }
+
+// Type guard to check if a value is a valid StickerData
+const isStickerData = (value: unknown): value is StickerData => {
+  if (!value || typeof value !== 'object') return false;
+  const obj = value as Record<string, unknown>;
+  return (
+    typeof obj.mood === 'string' &&
+    typeof obj.color === 'string' &&
+    (obj.text === undefined || typeof obj.text === 'string') &&
+    ['happy', 'excited', 'motivated', 'loved', 'peaceful', 'grateful', 'confident', 
+     'blessed', 'joyful', 'optimistic', 'energetic', 'content', 'inspired'].includes(obj.mood)
+  );
+};
 
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [stickerConfig, setStickerConfig] = useState<StickerConfig>({
     mood: "happy",
-    color: "#F4E7FF",  // Updated to match our lavender
+    color: "#F4E7FF",
     text: "",
   });
   
@@ -60,12 +73,11 @@ const Create = () => {
         if (data) {
           setGratitudeText(data.content);
           setIsPublic(data.is_public);
-          if (data.sticker && typeof data.sticker === 'object') {
-            const stickerData = data.sticker as StickerData;
+          if (data.sticker && isStickerData(data.sticker)) {
             setStickerConfig({
-              mood: stickerData.mood || "happy",
-              color: stickerData.color || "#F4E7FF",
-              text: stickerData.text || "",
+              mood: data.sticker.mood,
+              color: data.sticker.color,
+              text: data.sticker.text || "",
             });
           }
         }
