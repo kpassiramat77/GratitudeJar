@@ -25,45 +25,60 @@ const Index = () => {
           <p className="text-gray-600 text-lg">Capture life's precious moments ✨</p>
         </div>
 
-        {/* Animated Jar */}
-        <div className="relative h-64 flex items-center justify-center">
+        {/* Realistic Jar */}
+        <div className="relative h-80 flex items-center justify-center">
           {/* Jar Container */}
-          <div className="relative w-48 h-48 bg-white/30 backdrop-blur-sm rounded-3xl border-2 border-white/50 shadow-xl overflow-hidden">
-            {/* Floating Stickers */}
-            <div className="absolute top-4 left-4 animate-bounce">
-              <Heart className="h-6 w-6 text-rose-400" />
-            </div>
-            <div className="absolute top-8 right-6 animate-bounce delay-100">
-              <Gift className="h-6 w-6 text-purple-400" />
-            </div>
-            <div className="absolute bottom-12 left-8 animate-bounce delay-200">
-              <Flower className="h-6 w-6 text-pink-400" />
-            </div>
-            <div className="absolute bottom-8 right-8 animate-bounce delay-300">
-              <Leaf className="h-6 w-6 text-emerald-400" />
-            </div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">
-              <Smile className="h-8 w-8 text-amber-400" />
-            </div>
+          <div className="relative w-56 h-64">
+            {/* Jar Lid */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-8 bg-gradient-to-r from-gray-300 via-white to-gray-300 rounded-t-xl border border-gray-200 z-20"></div>
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 h-4 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-t-3xl border border-gray-100"></div>
             
-            {/* Prompts Carousel */}
-            <div className="absolute bottom-4 left-0 right-0 text-center">
-              <div className="animate-slide-up">
-                {samplePrompts.map((prompt, index) => (
-                  <p 
-                    key={index}
-                    className="text-sm text-gray-600 font-medium opacity-0 animate-fade-in"
-                    style={{ 
-                      animationDelay: `${index * 2}s`,
-                      animationDuration: '4s',
-                      animationIterationCount: 'infinite' 
-                    }}
-                  >
-                    {prompt}
-                  </p>
-                ))}
+            {/* Jar Body */}
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-56 bg-white/20 backdrop-blur-md rounded-2xl overflow-hidden">
+              {/* Glass Reflections */}
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+              <div className="absolute top-0 left-1/4 w-1 h-full bg-white/40"></div>
+              <div className="absolute top-0 right-1/4 w-1 h-full bg-white/40"></div>
+              
+              {/* Floating Stickers */}
+              <div className="absolute top-4 left-4 animate-bounce">
+                <Heart className="h-6 w-6 text-rose-400 drop-shadow-md" />
+              </div>
+              <div className="absolute top-8 right-6 animate-bounce delay-100">
+                <Gift className="h-6 w-6 text-purple-400 drop-shadow-md" />
+              </div>
+              <div className="absolute bottom-12 left-8 animate-bounce delay-200">
+                <Flower className="h-6 w-6 text-pink-400 drop-shadow-md" />
+              </div>
+              <div className="absolute bottom-8 right-8 animate-bounce delay-300">
+                <Leaf className="h-6 w-6 text-emerald-400 drop-shadow-md" />
+              </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">
+                <Smile className="h-8 w-8 text-amber-400 drop-shadow-lg" />
+              </div>
+
+              {/* Prompts Carousel */}
+              <div className="absolute bottom-4 left-0 right-0 text-center">
+                <div className="animate-slide-up">
+                  {samplePrompts.map((prompt, index) => (
+                    <p 
+                      key={index}
+                      className="text-sm text-gray-600 font-medium opacity-0 animate-fade-in drop-shadow-sm"
+                      style={{ 
+                        animationDelay: `${index * 2}s`,
+                        animationDuration: '4s',
+                        animationIterationCount: 'infinite' 
+                      }}
+                    >
+                      {prompt}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
+
+            {/* Jar Base */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-b-lg border border-gray-100"></div>
           </div>
         </div>
 
