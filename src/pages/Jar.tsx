@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
 import { useAuthStore } from "@/lib/auth-store";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface GratitudeEntry {
   id: string;
@@ -21,6 +22,7 @@ interface GratitudeEntry {
 
 const Jar = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const user = useAuthStore((state) => state.user);
   const [entries, setEntries] = useState<GratitudeEntry[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -46,26 +48,32 @@ const Jar = () => {
   const fetchEntries = async () => {
     if (!user) return;
 
-    const query = supabase
+    let query = supabase
       .from('gratitudes')
       .select('*')
       .eq('user_id', user.id)
       .order('created_at', { ascending: sortOrder === "oldest" });
 
+    // Apply mood filter if active
     if (activeFilter && Object.keys(moodEmojis).includes(activeFilter)) {
-      query.eq('sticker->>mood', activeFilter);
+      query = query.eq('sticker->>mood', activeFilter);
     }
 
     const { data, error } = await query;
     if (error) {
       console.error('Error fetching gratitudes:', error);
+      toast({
+        title: "Error loading entries",
+        description: "Could not load your gratitude entries",
+        variant: "destructive",
+      });
       return;
     }
     
     // Cast the data to match our interface and ensure sticker data is valid
     const typedData = (data || []).map(entry => ({
       ...entry,
-      is_favorite: false, // Set default value
+      is_favorite: entry.is_favorite || false,
       sticker: entry.sticker ? {
         mood: (entry.sticker as any).mood || 'happy',
         color: (entry.sticker as any).color || getDefaultStickerColor((entry.sticker as any).mood || 'happy')
@@ -76,6 +84,62 @@ const Jar = () => {
     }));
     
     setEntries(typedData);
+  };
+
+  const handleDeleteEntry = async (id: string) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from('gratitudes')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) {
+      toast({
+        title: "Error deleting entry",
+        description: "Could not delete the gratitude entry",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Entry deleted",
+      description: "Your gratitude entry has been removed",
+    });
+    
+    // Refresh entries after deletion
+    fetchEntries();
+  };
+
+  const handleToggleFavorite = async (entry: GratitudeEntry) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from('gratitudes')
+      .update({ is_favorite: !entry.is_favorite })
+      .eq('id', entry.id)
+      .eq('user_id', user.id);
+
+    if (error) {
+      toast({
+        title: "Error updating entry",
+        description: "Could not update favorite status",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: entry.is_favorite ? "Removed from favorites" : "Added to favorites",
+      description: entry.is_favorite 
+        ? "Entry removed from your favorites" 
+        : "Entry added to your favorites",
+    });
+    
+    // Refresh entries after toggling favorite
+    fetchEntries();
   };
 
   useEffect(() => {
@@ -162,14 +226,23 @@ const Jar = () => {
                 </div>
               </div>
               <div className="flex gap-4 mt-4">
-                <button className="text-gray-600 hover:text-gray-900">
+                <button 
+                  className="text-gray-600 hover:text-gray-900"
+                  onClick={() => navigate(`/edit/${entry.id}`)}
+                >
                   ✏️
                 </button>
-                <button className="text-gray-600 hover:text-gray-900">
+                <button 
+                  className="text-gray-600 hover:text-gray-900"
+                  onClick={() => handleDeleteEntry(entry.id)}
+                >
                   🗑️
                 </button>
-                <button className="text-gray-600 hover:text-gray-900">
-                  ❤️
+                <button 
+                  className="text-gray-600 hover:text-gray-900"
+                  onClick={() => handleToggleFavorite(entry)}
+                >
+                  {entry.is_favorite ? '❤️' : '🤍'}
                 </button>
               </div>
             </div>
