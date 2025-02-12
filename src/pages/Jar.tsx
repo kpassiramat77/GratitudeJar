@@ -16,7 +16,7 @@ interface GratitudeEntry {
   sticker: {
     mood: string;
     color: string;
-  };
+  } | null;
 }
 
 const Jar = () => {
@@ -31,6 +31,16 @@ const Jar = () => {
     excited: "🤩",
     motivated: "🥺",
     loved: "🥰"
+  };
+
+  const getDefaultStickerColor = (mood: string) => {
+    const colorMap: Record<string, string> = {
+      happy: "#BAE6FD",
+      excited: "#E9D5FF",
+      motivated: "#FED7AA",
+      loved: "#FBCFE8"
+    };
+    return colorMap[mood] || "#F3F4F6";
   };
 
   const fetchEntries = async () => {
@@ -52,11 +62,17 @@ const Jar = () => {
       return;
     }
     
-    // Cast the data to match our interface
+    // Cast the data to match our interface and ensure sticker data is valid
     const typedData = (data || []).map(entry => ({
       ...entry,
-      is_favorite: entry.is_favorite || false,
-      sticker: entry.sticker as GratitudeEntry['sticker']
+      is_favorite: false, // Set default value
+      sticker: entry.sticker ? {
+        mood: (entry.sticker as any).mood || 'happy',
+        color: (entry.sticker as any).color || getDefaultStickerColor((entry.sticker as any).mood || 'happy')
+      } : {
+        mood: 'happy',
+        color: getDefaultStickerColor('happy')
+      }
     }));
     
     setEntries(typedData);
@@ -133,11 +149,15 @@ const Jar = () => {
             <div
               key={entry.id}
               className="p-6 rounded-3xl shadow-sm"
-              style={{ backgroundColor: entry.sticker.color }}
+              style={{ 
+                backgroundColor: entry.sticker?.color || getDefaultStickerColor(entry.sticker?.mood || 'happy')
+              }}
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-4xl mb-4 block">{moodEmojis[entry.sticker.mood as keyof typeof moodEmojis]}</span>
+                  <span className="text-4xl mb-4 block">
+                    {moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis] || moodEmojis.happy}
+                  </span>
                   <p className="text-gray-800 text-lg">{entry.content}</p>
                 </div>
               </div>
