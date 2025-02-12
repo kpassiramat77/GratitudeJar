@@ -14,7 +14,7 @@ const Create = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [stickerConfig, setStickerConfig] = useState<StickerConfig>({
     mood: "happy",
-    color: "#E5DEFF",  // Updated to a light purple
+    color: "#F4E7FF",  // Updated to match our lavender
     text: "",
   });
   
@@ -80,9 +80,9 @@ const Create = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-violet-50 flex items-start justify-center pt-4 sm:pt-8 px-4 pb-safe">
+    <div className="min-h-screen bg-pastel-gradient-vertical flex items-start justify-center pt-4 sm:pt-8 px-4 pb-safe">
       <div className="w-full max-w-md">
-        <h1 className="text-xl font-semibold mb-6 text-center text-purple-900">Create Sticker</h1>
+        <h1 className="text-xl font-semibold mb-6 text-center text-purple-800">Create Sticker</h1>
         <div className="space-y-6">
           <StickerCustomizer 
             config={stickerConfig}
