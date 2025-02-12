@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Heart, Send, Star, Smile, Gift, Flower, Leaf } from "lucide-react";
@@ -56,33 +55,31 @@ const Index = () => {
           <p className="text-gray-600 text-lg">Capture life's precious moments ✨</p>
         </div>
 
-        {/* 3D Jar */}
         <div className="relative h-96 flex items-center justify-center perspective-1000">
           <div className="relative w-64 h-80 transform-style-3d rotate-y-[-20deg] hover:rotate-y-0 transition-transform duration-500">
-            {/* Jar Lid */}
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-40 h-8 bg-gradient-to-r from-gray-300 via-white to-gray-300 rounded-t-2xl transform-3d rotate-x-[20deg] z-20 shadow-xl">
-              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-32 h-2 bg-gradient-to-r from-gray-200 via-white to-gray-200 rounded-full"></div>
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-40 h-8 bg-gradient-to-r from-amber-200 via-amber-100 to-amber-200 rounded-t-2xl transform-3d rotate-x-[20deg] z-20 shadow-xl">
+              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-32 h-2 bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 rounded-full"></div>
             </div>
             
-            {/* Jar Body - Main Container */}
             <div className="absolute top-0 left-0 w-full h-full transform-style-3d">
-              {/* Front Face */}
-              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/40 transform-3d translate-z-[8rem]">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+              <div className="absolute inset-0 bg-rose-100/20 backdrop-blur-sm rounded-2xl shadow-2xl border border-rose-200/40 transform-3d translate-z-[8rem]">
+                <div className="absolute inset-0 bg-gradient-to-r from-rose-100/10 via-white/40 to-rose-100/10"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
               </div>
               
-              {/* Back Face */}
-              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/40 transform-3d translate-z-[-8rem]">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+              <div className="absolute inset-0 bg-rose-100/20 backdrop-blur-sm rounded-2xl shadow-2xl border border-rose-200/40 transform-3d translate-z-[-8rem]">
+                <div className="absolute inset-0 bg-gradient-to-r from-rose-100/10 via-white/40 to-rose-100/10"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
               </div>
               
-              {/* Left Face */}
-              <div className="absolute inset-y-0 left-0 w-32 bg-white/10 backdrop-blur-sm transform-3d origin-left rotate-y-[90deg] translate-x-[-8rem]"></div>
+              <div className="absolute inset-y-0 left-0 w-32 bg-rose-100/10 backdrop-blur-sm transform-3d origin-left rotate-y-[90deg] translate-x-[-8rem] border-y border-rose-200/40">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+              </div>
               
-              {/* Right Face */}
-              <div className="absolute inset-y-0 right-0 w-32 bg-white/10 backdrop-blur-sm transform-3d origin-right rotate-y-[-90deg] translate-x-[8rem]"></div>
+              <div className="absolute inset-y-0 right-0 w-32 bg-rose-100/10 backdrop-blur-sm transform-3d origin-right rotate-y-[-90deg] translate-x-[8rem] border-y border-rose-200/40">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+              </div>
               
-              {/* Floating Stickers */}
               {sampleNotes.map((note, index) => {
                 const positions = [
                   "top-8 left-8 translate-z-[4rem]",
@@ -115,7 +112,6 @@ const Index = () => {
                 );
               })}
 
-              {/* Prompts */}
               <div className="absolute bottom-8 left-0 right-0 text-center transform-3d translate-z-[6rem]">
                 <div className="animate-float-up">
                   {samplePrompts.map((prompt, index) => (
