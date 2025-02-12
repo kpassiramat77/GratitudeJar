@@ -55,44 +55,47 @@ const Index = () => {
           <p className="text-gray-600 text-lg">Capture life's precious moments ✨</p>
         </div>
 
-        <div className="relative h-96 flex items-center justify-center perspective-1000">
-          <div className="relative w-64 h-80 transform-style-3d rotate-y-[-20deg] hover:rotate-y-0 transition-transform duration-500">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-40 h-8 bg-gradient-to-r from-amber-200 via-amber-100 to-amber-200 rounded-t-2xl transform-3d rotate-x-[20deg] z-20 shadow-xl">
-              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-32 h-2 bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 rounded-full"></div>
-            </div>
-            
-            <div className="absolute top-0 left-0 w-full h-full transform-style-3d">
-              <div className="absolute inset-0 bg-rose-100/20 backdrop-blur-sm rounded-2xl shadow-2xl border border-rose-200/40 transform-3d translate-z-[8rem]">
-                <div className="absolute inset-0 bg-gradient-to-r from-rose-100/10 via-white/40 to-rose-100/10"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
+        <div className="relative h-96 flex items-center justify-center">
+          <div className="relative w-64 h-80 group">
+            <div className="absolute inset-0 rounded-jar bg-white/10 backdrop-blur-md shadow-lg">
+              <div className="absolute inset-0 rounded-jar bg-gradient-to-r from-white/40 via-transparent to-white/40"></div>
+              <div className="absolute inset-0 rounded-jar bg-gradient-to-b from-white/30 via-transparent to-white/20"></div>
+              <div className="absolute inset-0 rounded-jar border border-white/30"></div>
+              <div className="absolute -top-4 left-0 right-0 h-8">
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-t-xl">
+                  <div className="absolute inset-x-0 top-1 h-1 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400"></div>
+                  <div className="absolute inset-x-0 bottom-1 h-1 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400"></div>
+                </div>
+                <div className="absolute inset-x-0 top-0 h-full flex justify-around items-center overflow-hidden">
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <div key={i} className="w-0.5 h-full bg-gray-400/30 transform -skew-x-12"></div>
+                  ))}
+                </div>
               </div>
-              
-              <div className="absolute inset-0 bg-rose-100/20 backdrop-blur-sm rounded-2xl shadow-2xl border border-rose-200/40 transform-3d translate-z-[-8rem]">
-                <div className="absolute inset-0 bg-gradient-to-r from-rose-100/10 via-white/40 to-rose-100/10"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-16 h-8">
+                <div className="absolute w-full h-0.5 bg-amber-700/80 top-1/2 -translate-y-1/2"></div>
+                <div className="absolute w-4 h-4 border-2 border-amber-700/80 rounded-full left-1/2 -translate-x-1/2 transform rotate-45"></div>
+                <div className="absolute w-3 h-6 border-2 border-amber-700/80 rounded-full left-1/2 -translate-x-1/2 -translate-y-1"></div>
               </div>
-              
-              <div className="absolute inset-y-0 left-0 w-32 bg-rose-100/10 backdrop-blur-sm transform-3d origin-left rotate-y-[90deg] translate-x-[-8rem] border-y border-rose-200/40">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+              <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-48 h-20 bg-gray-900/90 flex items-center justify-center transform -rotate-2">
+                <div className="text-white text-center">
+                  <div className="text-2xl font-bold tracking-wider">GRATITUDE</div>
+                  <div className="text-xl tracking-wide">JAR</div>
+                </div>
               </div>
-              
-              <div className="absolute inset-y-0 right-0 w-32 bg-rose-100/10 backdrop-blur-sm transform-3d origin-right rotate-y-[-90deg] translate-x-[8rem] border-y border-rose-200/40">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
-              </div>
-              
               {sampleNotes.map((note, index) => {
                 const positions = [
-                  "top-8 left-8 translate-z-[4rem]",
-                  "top-12 right-8 translate-z-[2rem]",
-                  "bottom-24 left-12 translate-z-[6rem]",
-                  "bottom-16 right-10 translate-z-[3rem]",
-                  "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 translate-z-[5rem]",
+                  "top-8 left-8",
+                  "top-12 right-8",
+                  "bottom-24 left-12",
+                  "bottom-16 right-10",
+                  "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
                 ];
                 
                 return (
                   <div
                     key={index}
-                    className={`absolute ${positions[index]} transform-3d animate-float-3d`}
+                    className={`absolute ${positions[index]} animate-float`}
                     style={{ 
                       animationDelay: `${index * 0.5}s`,
                       animationDuration: '3s'
@@ -111,24 +114,6 @@ const Index = () => {
                   </div>
                 );
               })}
-
-              <div className="absolute bottom-8 left-0 right-0 text-center transform-3d translate-z-[6rem]">
-                <div className="animate-float-up">
-                  {samplePrompts.map((prompt, index) => (
-                    <p 
-                      key={index}
-                      className="text-sm text-gray-600 font-medium opacity-0 animate-fade-in drop-shadow-lg"
-                      style={{ 
-                        animationDelay: `${index * 2}s`,
-                        animationDuration: '4s',
-                        animationIterationCount: 'infinite' 
-                      }}
-                    >
-                      {prompt}
-                    </p>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -176,83 +161,21 @@ const Index = () => {
       </div>
 
       <style>{`
-        .perspective-1000 {
-          perspective: 1000px;
+        .rounded-jar {
+          border-radius: 2rem 2rem 1.5rem 1.5rem;
         }
         
-        .transform-style-3d {
-          transform-style: preserve-3d;
-        }
-        
-        .transform-3d {
-          transform-style: preserve-3d;
-        }
-        
-        .rotate-y-[-20deg] {
-          transform: rotateY(-20deg);
-        }
-        
-        .rotate-x-[20deg] {
-          transform: rotateX(20deg);
-        }
-        
-        .translate-z-[2rem] {
-          transform: translateZ(2rem);
-        }
-        
-        .translate-z-[3rem] {
-          transform: translateZ(3rem);
-        }
-        
-        .translate-z-[4rem] {
-          transform: translateZ(4rem);
-        }
-        
-        .translate-z-[5rem] {
-          transform: translateZ(5rem);
-        }
-        
-        .translate-z-[6rem] {
-          transform: translateZ(6rem);
-        }
-        
-        .translate-z-[8rem] {
-          transform: translateZ(8rem);
-        }
-        
-        .translate-z-[-8rem] {
-          transform: translateZ(-8rem);
-        }
-        
-        @keyframes float-3d {
+        @keyframes float {
           0%, 100% {
-            transform: translateZ(var(--z)) translateY(0);
+            transform: translateY(0);
           }
           50% {
-            transform: translateZ(var(--z)) translateY(-10px);
+            transform: translateY(-10px);
           }
         }
         
-        .animate-float-3d {
-          animation: float-3d 3s ease-in-out infinite;
-        }
-        
-        @keyframes slide-up {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-40px); }
-        }
-        
-        @keyframes fade-in {
-          0%, 100% { opacity: 0; }
-          25%, 75% { opacity: 1; }
-        }
-        
-        .animate-slide-up {
-          animation: slide-up 8s linear infinite;
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 4s ease-in-out;
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
         }
       `}</style>
     </div>
