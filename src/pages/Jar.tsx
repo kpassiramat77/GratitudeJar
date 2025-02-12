@@ -11,6 +11,8 @@ interface GratitudeEntry {
   content: string;
   created_at: string;
   is_favorite: boolean;
+  is_public: boolean;
+  user_id: string;
   sticker: {
     mood: string;
     color: string;
@@ -38,7 +40,7 @@ const Jar = () => {
       .from('gratitudes')
       .select('*')
       .eq('user_id', user.id)
-      .order('created_at', sortOrder === "newest" ? 'desc' : 'asc');
+      .order('created_at', { ascending: sortOrder === "oldest" });
 
     if (activeFilter && Object.keys(moodEmojis).includes(activeFilter)) {
       query.eq('sticker->>mood', activeFilter);
@@ -49,7 +51,15 @@ const Jar = () => {
       console.error('Error fetching gratitudes:', error);
       return;
     }
-    setEntries(data || []);
+    
+    // Cast the data to match our interface
+    const typedData = (data || []).map(entry => ({
+      ...entry,
+      is_favorite: entry.is_favorite || false,
+      sticker: entry.sticker as GratitudeEntry['sticker']
+    }));
+    
+    setEntries(typedData);
   };
 
   useEffect(() => {
