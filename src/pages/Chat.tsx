@@ -1,13 +1,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { MessageCircle, Send, Bot } from "lucide-react";
+import { Bot } from "lucide-react";
 import { useAuthStore } from "@/lib/auth-store";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { cn } from "@/lib/utils";
+import { ChatMessage } from "@/components/chat/ChatMessage";
+import { ChatTypingIndicator } from "@/components/chat/ChatTypingIndicator";
+import { ChatInput } from "@/components/chat/ChatInput";
+import { ChatWelcomeMessage } from "@/components/chat/ChatWelcomeMessage";
 
 interface Message {
   id: string;
@@ -46,7 +47,6 @@ const Chat = () => {
             filter: `user_id=eq.${user.id}`,
           },
           (payload) => {
-            // Add new message directly instead of reloading all messages
             const newMessage = payload.new as Message;
             setMessages((prev) => [...prev, newMessage]);
           }
@@ -94,7 +94,6 @@ const Chat = () => {
     setMessage("");
 
     try {
-      // Insert user message first
       const { error: insertError } = await supabase
         .from('conversations')
         .insert({
@@ -105,7 +104,6 @@ const Chat = () => {
 
       if (insertError) throw insertError;
 
-      // Then call the AI function
       const { error } = await supabase.functions.invoke('chat-with-jari', {
         body: { message: userMessage, userId: user.id },
       });
@@ -122,11 +120,6 @@ const Chat = () => {
       setIsLoading(false);
       setIsTyping(false);
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
@@ -147,93 +140,20 @@ const Chat = () => {
           <CardContent className="p-0">
             <div className="h-[70vh] flex flex-col">
               <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                {messages.length === 0 && (
-                  <div className="flex items-start space-x-3 animate-fade-in">
-                    <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
-                      <Bot className="h-6 w-6 text-rose-500" />
-                    </div>
-                    <div className="bg-gray-100 rounded-2xl p-6 max-w-[85%] shadow-sm">
-                      <p className="text-gray-800 text-lg leading-relaxed">
-                        Hi! I'm Jari, your gratitude assistant. I'm here to help you cultivate positivity and process your thoughts. How can I support you today?
-                      </p>
-                    </div>
-                  </div>
-                )}
-                {messages.map((msg, index) => (
-                  <div
-                    key={msg.id}
-                    className={cn(
-                      "flex items-start space-x-3 animate-fade-in",
-                      msg.is_ai ? "justify-start" : "justify-end space-x-reverse"
-                    )}
-                  >
-                    {msg.is_ai && (
-                      <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
-                        <Bot className="h-6 w-6 text-rose-500" />
-                      </div>
-                    )}
-                    <div
-                      className={cn(
-                        "rounded-2xl p-4 max-w-[85%] relative group shadow-sm",
-                        msg.is_ai 
-                          ? "bg-gray-100 text-gray-800" 
-                          : "bg-rose-500 text-white"
-                      )}
-                    >
-                      <p className={cn(
-                        "text-base leading-relaxed mb-2",
-                        msg.is_ai ? "text-gray-700" : "text-white"
-                      )}>{msg.message}</p>
-                      <div 
-                        className={cn(
-                          "text-xs",
-                          msg.is_ai ? "text-gray-500" : "text-rose-100"
-                        )}
-                      >
-                        {formatDate(msg.created_at)}
-                      </div>
-                    </div>
-                  </div>
+                {messages.length === 0 && <ChatWelcomeMessage />}
+                {messages.map((msg) => (
+                  <ChatMessage key={msg.id} message={msg} />
                 ))}
-                {isTyping && (
-                  <div className="flex items-start space-x-3 animate-fade-in">
-                    <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
-                      <Bot className="h-6 w-6 text-rose-500" />
-                    </div>
-                    <div className="bg-gray-100 rounded-2xl p-4 shadow-sm">
-                      <div className="flex space-x-2">
-                        <div className="w-3 h-3 bg-gray-400 rounded-full animate-bounce" />
-                        <div className="w-3 h-3 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-                        <div className="w-3 h-3 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
-                      </div>
-                    </div>
-                  </div>
-                )}
+                {isTyping && <ChatTypingIndicator />}
                 <div ref={messagesEndRef} />
               </div>
               
-              <div className="border-t p-4 bg-white/50 backdrop-blur-sm">
-                <div className="flex space-x-3 max-w-3xl mx-auto">
-                  <Input
-                    placeholder="Type your message..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSend()}
-                    disabled={isLoading}
-                    className="flex-1 bg-white border-gray-200 focus:ring-rose-200"
-                  />
-                  <Button 
-                    onClick={handleSend} 
-                    className={cn(
-                      "bg-rose-500 hover:bg-rose-600 transition-colors shadow-lg hover:shadow-xl",
-                      isLoading && "opacity-50 cursor-not-allowed"
-                    )}
-                    disabled={isLoading}
-                  >
-                    <Send className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+              <ChatInput
+                message={message}
+                isLoading={isLoading}
+                onMessageChange={setMessage}
+                onSend={handleSend}
+              />
             </div>
           </CardContent>
         </Card>
