@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
@@ -14,7 +15,7 @@ const Create = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!gratitudeText.trim()) {
       toast({
         title: "Cannot save empty gratitude",
@@ -24,12 +25,31 @@ const Create = () => {
       return;
     }
 
-    // TODO: Save to database
-    toast({
-      title: "Gratitude saved",
-      description: "Your gratitude has been added to your jar",
-    });
-    navigate("/jar");
+    try {
+      const { error } = await supabase
+        .from('gratitudes')
+        .insert([
+          {
+            content: gratitudeText.trim(),
+            is_public: isPublic,
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Gratitude saved",
+        description: "Your gratitude has been added to your jar",
+      });
+      navigate("/jar");
+    } catch (error: any) {
+      console.error('Error saving gratitude:', error);
+      toast({
+        title: "Error saving gratitude",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
