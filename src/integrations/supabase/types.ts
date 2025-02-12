@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      conversations: {
+        Row: {
+          context: Json | null
+          created_at: string
+          id: string
+          is_ai: boolean
+          message: string
+          user_id: string
+        }
+        Insert: {
+          context?: Json | null
+          created_at?: string
+          id?: string
+          is_ai?: boolean
+          message: string
+          user_id: string
+        }
+        Update: {
+          context?: Json | null
+          created_at?: string
+          id?: string
+          is_ai?: boolean
+          message?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       gratitudes: {
         Row: {
           content: string
@@ -60,6 +87,39 @@ export type Database = {
           id?: string
           updated_at?: string
           username?: string | null
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          age: number | null
+          created_at: string
+          favorite_activities: string[] | null
+          fears: string[] | null
+          id: string
+          interests: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          created_at?: string
+          favorite_activities?: string[] | null
+          fears?: string[] | null
+          id?: string
+          interests?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          created_at?: string
+          favorite_activities?: string[] | null
+          fears?: string[] | null
+          id?: string
+          interests?: string[] | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
