@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export type Mood = "happy" | "excited" | "motivated" | "loved" | "peaceful" | "grateful" | "confident" | "blessed" | "joyful" | "optimistic" | "energetic" | "content" | "inspired";
 
@@ -114,6 +115,8 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
             padding: 0.75rem;
             transition: all 0.2s;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            min-width: 80px;
+            flex-shrink: 0;
           }
 
           .mood-button:hover {
@@ -126,16 +129,10 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
             border-color: #bae6fd;
           }
 
-          .mood-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+          .mood-row {
+            display: flex;
             gap: 0.75rem;
-          }
-
-          @media (min-width: 480px) {
-            .mood-grid {
-              grid-template-columns: repeat(5, 1fr);
-            }
+            padding: 0.5rem;
           }
         `}
       </style>
@@ -144,29 +141,32 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
       
       <div>
         <Label className="text-base font-medium text-gray-800 mb-2">How are you feeling?</Label>
-        <div className="mood-grid mt-3">
-          {Object.entries(moodEmojis).map(([mood, { src, alt, color }]) => (
-            <button
-              key={mood}
-              className={`mood-button ${config.mood === mood ? "selected" : ""}`}
-              style={{ 
-                backgroundColor: config.mood === mood ? color : undefined 
-              }}
-              onClick={() => onChange({ ...config, mood: mood as Mood, color })}
-            >
-              <img 
-                src={src} 
-                alt={alt}
-                className="w-10 h-10 mx-auto mb-1.5 object-contain"
-                onError={(e) => {
-                  console.error(`Failed to load image: ${src}`);
-                  e.currentTarget.style.opacity = '0.5';
+        <ScrollArea className="w-full whitespace-nowrap rounded-lg border">
+          <div className="mood-row">
+            {Object.entries(moodEmojis).map(([mood, { src, alt, color }]) => (
+              <button
+                key={mood}
+                className={`mood-button ${config.mood === mood ? "selected" : ""}`}
+                style={{ 
+                  backgroundColor: config.mood === mood ? color : undefined 
                 }}
-              />
-              <span className="text-xs text-gray-600 font-medium capitalize">{mood}</span>
-            </button>
-          ))}
-        </div>
+                onClick={() => onChange({ ...config, mood: mood as Mood, color })}
+              >
+                <img 
+                  src={src} 
+                  alt={alt}
+                  className="w-12 h-12 mx-auto mb-1.5 object-contain"
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${src}`);
+                    e.currentTarget.style.opacity = '0.5';
+                  }}
+                />
+                <span className="text-xs text-gray-600 font-medium capitalize block">{mood}</span>
+              </button>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
     </div>
   );
