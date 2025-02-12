@@ -17,7 +17,7 @@ interface StickerCustomizerProps {
 
 export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) => {
   const moodEmojis = {
-    happy: "😀",
+    happy: "😃",
     excited: "🤩",
     motivated: "🥺",
     loved: "🥰"
@@ -26,10 +26,10 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
   const renderPreview = () => {
     return (
       <div 
-        className="relative w-40 h-40 mx-auto mb-8 rounded-full flex items-center justify-center"
+        className="relative w-40 h-40 mx-auto mb-8 rounded-full flex items-center justify-center shadow-lg"
         style={{ backgroundColor: config.color }}
       >
-        <span className="text-6xl transform-gpu transition-transform hover:scale-110 emoji-3d">
+        <span className="text-6xl emoji-3d transform-gpu transition-transform hover:scale-110">
           {moodEmojis[config.mood]}
         </span>
       </div>
@@ -70,46 +70,66 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
               transform: translateY(0px);
             }
           }
+
+          .mood-button {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1rem;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+          }
+
+          .mood-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          }
+
+          .mood-button.selected {
+            background: #f0f9ff;
+            border-color: #bae6fd;
+          }
+
+          .mood-button.selected.happy { background: #BAE6FD; }
+          .mood-button.selected.excited { background: #E9D5FF; }
+          .mood-button.selected.motivated { background: #FED7AA; }
+          .mood-button.selected.loved { background: #FBCFE8; }
         `}
       </style>
       
       {renderPreview()}
       
       <div>
-        <Label className="text-lg mb-4">How are you feeling?</Label>
-        <div className="grid grid-cols-4 gap-2 mt-2">
-          <Button
-            variant={config.mood === "happy" ? "default" : "outline"}
+        <Label className="text-xl font-medium text-gray-800 mb-4">How are you feeling?</Label>
+        <div className="grid grid-cols-4 gap-4 mt-4">
+          <button
+            className={`mood-button ${config.mood === "happy" ? "selected happy" : ""}`}
             onClick={() => onChange({ ...config, mood: "happy", color: "#BAE6FD" })}
-            className="flex-1 text-xl flex flex-col items-center p-4 h-auto"
           >
-            <span className="emoji-3d text-2xl">{moodEmojis.happy}</span>
-            <span className="text-sm mt-1">Happy</span>
-          </Button>
-          <Button
-            variant={config.mood === "excited" ? "default" : "outline"}
+            <span className="emoji-3d text-3xl block mb-2">{moodEmojis.happy}</span>
+            <span className="text-sm text-gray-600 font-medium">Happy</span>
+          </button>
+          <button
+            className={`mood-button ${config.mood === "excited" ? "selected excited" : ""}`}
             onClick={() => onChange({ ...config, mood: "excited", color: "#E9D5FF" })}
-            className="flex-1 text-xl flex flex-col items-center p-4 h-auto"
           >
-            <span className="emoji-3d text-2xl">{moodEmojis.excited}</span>
-            <span className="text-sm mt-1">Excited</span>
-          </Button>
-          <Button
-            variant={config.mood === "motivated" ? "default" : "outline"}
+            <span className="emoji-3d text-3xl block mb-2">{moodEmojis.excited}</span>
+            <span className="text-sm text-gray-600 font-medium">Excited</span>
+          </button>
+          <button
+            className={`mood-button ${config.mood === "motivated" ? "selected motivated" : ""}`}
             onClick={() => onChange({ ...config, mood: "motivated", color: "#FED7AA" })}
-            className="flex-1 text-xl flex flex-col items-center p-4 h-auto"
           >
-            <span className="emoji-3d text-2xl">{moodEmojis.motivated}</span>
-            <span className="text-sm mt-1">Motivated</span>
-          </Button>
-          <Button
-            variant={config.mood === "loved" ? "default" : "outline"}
+            <span className="emoji-3d text-3xl block mb-2">{moodEmojis.motivated}</span>
+            <span className="text-sm text-gray-600 font-medium">Motivated</span>
+          </button>
+          <button
+            className={`mood-button ${config.mood === "loved" ? "selected loved" : ""}`}
             onClick={() => onChange({ ...config, mood: "loved", color: "#FBCFE8" })}
-            className="flex-1 text-xl flex flex-col items-center p-4 h-auto"
           >
-            <span className="emoji-3d text-2xl">{moodEmojis.loved}</span>
-            <span className="text-sm mt-1">Loved</span>
-          </Button>
+            <span className="emoji-3d text-3xl block mb-2">{moodEmojis.loved}</span>
+            <span className="text-sm text-gray-600 font-medium">Loved</span>
+          </button>
         </div>
       </div>
     </div>
