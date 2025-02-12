@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
+import { Calendar, Search } from "lucide-react";
 import { useAuthStore } from "@/lib/auth-store";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
+import { format } from "date-fns";
 
 interface GratitudeEntry {
   id: string;
@@ -19,6 +21,8 @@ interface GratitudeEntry {
   } | null;
 }
 
+type TimeView = "yearly" | "monthly" | "daily" | null;
+
 const Jar = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -26,6 +30,8 @@ const Jar = () => {
   const [entries, setEntries] = useState<GratitudeEntry[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [timeView, setTimeView] = useState<TimeView>(null);
 
   const moodEmojis: Record<string, { src: string, alt: string, color: string }> = {
     happy: { 
@@ -108,6 +114,25 @@ const Jar = () => {
       query = query.eq('sticker->>mood', activeFilter);
     }
 
+    if (timeView) {
+      const now = new Date();
+      let startDate;
+      
+      switch (timeView) {
+        case "yearly":
+          startDate = new Date(now.getFullYear(), 0, 1);
+          break;
+        case "monthly":
+          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+          break;
+        case "daily":
+          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          break;
+      }
+      
+      query = query.gte('created_at', startDate.toISOString());
+    }
+
     const { data, error } = await query;
     if (error) {
       console.error('Error fetching gratitudes:', error);
@@ -131,8 +156,15 @@ const Jar = () => {
         color: moodEmojis['happy'].color
       }
     }));
+
+    const filteredData = searchQuery
+      ? typedData.filter(entry =>
+          entry.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          entry.sticker?.mood.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : typedData;
     
-    setEntries(typedData);
+    setEntries(filteredData);
   };
 
   const handleDeleteEntry = async (id: string) => {
@@ -195,58 +227,79 @@ const Jar = () => {
 
   useEffect(() => {
     fetchEntries();
-  }, [user, activeFilter, sortOrder]);
+  }, [user, activeFilter, sortOrder, searchQuery, timeView]);
 
   return (
     <div className="min-h-screen bg-white p-4">
       <h1 className="text-4xl font-bold mb-6 text-gray-900">My Gratitude Jar</h1>
       
-      <div className="flex gap-2 overflow-x-auto pb-4 mb-4">
-        {Object.entries(moodEmojis).map(([mood, { src, alt, color }]) => (
-          <Button
-            key={mood}
-            onClick={() => setActiveFilter(activeFilter === mood ? null : mood)}
-            className={`rounded-full px-6 py-2 flex items-center gap-2 ${
-              activeFilter === mood 
-                ? 'bg-purple-100 text-purple-900' 
-                : 'bg-purple-50 text-gray-700 hover:bg-purple-100'
-            }`}
-            variant="ghost"
-          >
-            <img 
-              src={src} 
-              alt={alt}
-              className="w-6 h-6 object-contain"
-            />
-            <span className="font-medium capitalize">{mood}</span>
-          </Button>
-        ))}
-      </div>
+      <div className="space-y-4 mb-6">
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            placeholder="Search by content or emotion..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-1"
+            icon={<Search className="w-4 h-4 text-gray-500" />}
+          />
+        </div>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        <Button
-          variant="ghost"
-          className={`rounded-full px-6 py-2 ${
-            !activeFilter && 'bg-purple-100 text-purple-900'
-          }`}
-          onClick={() => setActiveFilter(null)}
-        >
-          ❤️ Favorites
-        </Button>
-        <Button
-          variant="ghost"
-          className="rounded-full px-6 py-2"
-          onClick={() => setSortOrder(sortOrder === "newest" ? "oldest" : "newest")}
-        >
-          🕒 {sortOrder === "newest" ? "Newest First" : "Oldest First"}
-        </Button>
-        <Button
-          variant="ghost"
-          className="rounded-full px-6 py-2"
-        >
-          <Calendar className="w-4 h-4 mr-2" />
-          Select Date Range
-        </Button>
+        <div className="flex gap-2 overflow-x-auto pb-4">
+          <Button
+            onClick={() => setTimeView(timeView === "daily" ? null : "daily")}
+            variant="outline"
+            className={`${timeView === "daily" ? "bg-purple-100 text-purple-900" : ""}`}
+          >
+            Daily
+          </Button>
+          <Button
+            onClick={() => setTimeView(timeView === "monthly" ? null : "monthly")}
+            variant="outline"
+            className={`${timeView === "monthly" ? "bg-purple-100 text-purple-900" : ""}`}
+          >
+            Monthly
+          </Button>
+          <Button
+            onClick={() => setTimeView(timeView === "yearly" ? null : "yearly")}
+            variant="outline"
+            className={`${timeView === "yearly" ? "bg-purple-100 text-purple-900" : ""}`}
+          >
+            Yearly
+          </Button>
+        </div>
+
+        <div className="flex gap-2 overflow-x-auto pb-4">
+          {Object.entries(moodEmojis).map(([mood, { src, alt, color }]) => (
+            <Button
+              key={mood}
+              onClick={() => setActiveFilter(activeFilter === mood ? null : mood)}
+              className={`rounded-full px-6 py-2 flex items-center gap-2 ${
+                activeFilter === mood 
+                  ? 'bg-purple-100 text-purple-900' 
+                  : 'bg-purple-50 text-gray-700 hover:bg-purple-100'
+              }`}
+              variant="ghost"
+            >
+              <img 
+                src={src} 
+                alt={alt}
+                className="w-6 h-6 object-contain"
+              />
+              <span className="font-medium capitalize">{mood}</span>
+            </Button>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant="ghost"
+            className={`rounded-full px-6 py-2`}
+            onClick={() => setSortOrder(sortOrder === "newest" ? "oldest" : "newest")}
+          >
+            🕒 {sortOrder === "newest" ? "Newest First" : "Oldest First"}
+          </Button>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -271,11 +324,16 @@ const Jar = () => {
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <img 
-                    src={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.src || moodEmojis['happy'].src}
-                    alt={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.alt || moodEmojis['happy'].alt}
-                    className="w-12 h-12 mb-4 object-contain"
-                  />
+                  <div className="flex items-center gap-2 mb-4">
+                    <img 
+                      src={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.src || moodEmojis['happy'].src}
+                      alt={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.alt || moodEmojis['happy'].alt}
+                      className="w-12 h-12 object-contain"
+                    />
+                    <span className="text-sm text-gray-600">
+                      {format(new Date(entry.created_at), 'PPP')}
+                    </span>
+                  </div>
                   <p className="text-gray-800 text-lg">{entry.content}</p>
                 </div>
               </div>
