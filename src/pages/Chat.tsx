@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, Send } from "lucide-react";
+import { MessageCircle, Send, Bot } from "lucide-react";
 import { useAuthStore } from "@/lib/auth-store";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
@@ -45,8 +45,10 @@ const Chat = () => {
             table: 'conversations',
             filter: `user_id=eq.${user.id}`,
           },
-          () => {
-            loadMessages();
+          (payload) => {
+            // Add new message directly instead of reloading all messages
+            const newMessage = payload.new as Message;
+            setMessages((prev) => [...prev, newMessage]);
           }
         )
         .subscribe();
@@ -92,13 +94,23 @@ const Chat = () => {
     setMessage("");
 
     try {
-      const { data, error } = await supabase.functions.invoke('chat-with-jari', {
+      // Insert user message first
+      const { error: insertError } = await supabase
+        .from('conversations')
+        .insert({
+          message: userMessage,
+          is_ai: false,
+          user_id: user.id
+        });
+
+      if (insertError) throw insertError;
+
+      // Then call the AI function
+      const { error } = await supabase.functions.invoke('chat-with-jari', {
         body: { message: userMessage, userId: user.id },
       });
 
       if (error) throw error;
-
-      // Messages will be loaded automatically through the subscription
     } catch (error) {
       console.error('Error sending message:', error);
       toast({
@@ -123,7 +135,7 @@ const Chat = () => {
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <MessageCircle className="h-5 w-5 text-rose-500" />
+              <Bot className="h-6 w-6 text-rose-500" />
               Chat with Jari
             </CardTitle>
           </CardHeader>
@@ -131,31 +143,43 @@ const Chat = () => {
             <div className="h-[600px] flex flex-col">
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {messages.length === 0 && (
-                  <div className="bg-gray-100 rounded-lg p-4 mb-2">
-                    Hi! I'm Jari, your gratitude assistant. I'm here to help you cultivate positivity and process your thoughts. How can I support you today?
+                  <div className="flex items-start space-x-3">
+                    <div className="h-8 w-8 rounded-full bg-rose-100 flex items-center justify-center">
+                      <Bot className="h-5 w-5 text-rose-500" />
+                    </div>
+                    <div className="bg-gray-100 rounded-2xl p-4 max-w-[85%]">
+                      <p className="text-gray-800">
+                        Hi! I'm Jari, your gratitude assistant. I'm here to help you cultivate positivity and process your thoughts. How can I support you today?
+                      </p>
+                    </div>
                   </div>
                 )}
                 {messages.map((msg, index) => (
                   <div
                     key={msg.id}
                     className={cn(
-                      "flex",
-                      msg.is_ai ? "justify-start" : "justify-end"
+                      "flex items-start space-x-3",
+                      msg.is_ai ? "justify-start" : "justify-end space-x-reverse"
                     )}
                   >
+                    {msg.is_ai && (
+                      <div className="h-8 w-8 rounded-full bg-rose-100 flex items-center justify-center">
+                        <Bot className="h-5 w-5 text-rose-500" />
+                      </div>
+                    )}
                     <div
                       className={cn(
-                        "max-w-[80%] rounded-lg p-4",
+                        "rounded-2xl p-4 max-w-[85%] relative group",
                         msg.is_ai 
-                          ? "bg-gray-100" 
+                          ? "bg-gray-100 text-gray-800" 
                           : "bg-rose-500 text-white"
                       )}
                     >
-                      <div className="mb-1">{msg.message}</div>
+                      <p className="mb-1">{msg.message}</p>
                       <div 
                         className={cn(
-                          "text-xs mt-1",
-                          msg.is_ai ? "text-gray-500" : "text-rose-200"
+                          "text-xs opacity-70",
+                          msg.is_ai ? "text-gray-500" : "text-rose-50"
                         )}
                       >
                         {formatDate(msg.created_at)}
@@ -164,8 +188,11 @@ const Chat = () => {
                   </div>
                 ))}
                 {isTyping && (
-                  <div className="flex justify-start">
-                    <div className="bg-gray-100 rounded-lg p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="h-8 w-8 rounded-full bg-rose-100 flex items-center justify-center">
+                      <Bot className="h-5 w-5 text-rose-500" />
+                    </div>
+                    <div className="bg-gray-100 rounded-2xl p-4">
                       <div className="flex space-x-2">
                         <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
                         <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
