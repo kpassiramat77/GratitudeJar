@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/lib/auth-store";
 import { Circle, Square, Smile, Frown, Heart, Meh } from "lucide-react";
+import type { Json } from "@/integrations/supabase/types";
 
 type Shape = "circle" | "square" | "heart";
 type Mood = "happy" | "sad" | "neutral";
@@ -20,6 +21,16 @@ interface StickerConfig {
   color: string;
   text: string;
 }
+
+// Helper function to convert StickerConfig to Json type
+const stickerConfigToJson = (config: StickerConfig): Json => {
+  return {
+    shape: config.shape,
+    mood: config.mood,
+    color: config.color,
+    text: config.text
+  };
+};
 
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
@@ -68,7 +79,7 @@ const Create = () => {
           content: gratitudeText.trim(),
           is_public: isPublic,
           user_id: user.id,
-          sticker: stickerConfig
+          sticker: stickerConfigToJson(stickerConfig)
         });
 
       if (error) throw error;
