@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Heart, Send, Star, Smile, Gift, Flower, Leaf } from "lucide-react";
+import { PlusCircle, Heart, Send, Star, Smile } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const samplePrompts = [
@@ -45,45 +45,45 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4">
+    <div className="min-h-screen bg-gradient-to-b from-[#f3f0ff] to-[#e8f5ff] p-4">
       <div className="max-w-md mx-auto space-y-4">
         <div className="text-center pt-2 space-y-2">
           <div className="flex justify-center">
-            <Star className="h-8 w-8 text-rose-500 animate-pulse" />
+            <Star className="h-8 w-8 text-[#8b5cf6] animate-pulse" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">GratitudeJar</h1>
+          <h1 className="text-3xl font-bold text-gray-800">GratitudeJar</h1>
           <p className="text-gray-600">Capture life's precious moments ✨</p>
         </div>
 
         <div className="relative h-72 flex items-center justify-center">
           <div className="relative w-48 h-64 group">
-            <div className="absolute inset-0 rounded-jar bg-white/10 backdrop-blur-md shadow-lg">
-              <div className="absolute inset-0 rounded-jar bg-gradient-to-r from-white/40 via-transparent to-white/40"></div>
-              <div className="absolute inset-0 rounded-jar bg-gradient-to-b from-white/30 via-transparent to-white/20"></div>
-              <div className="absolute inset-0 rounded-jar border border-white/30"></div>
+            <div className="absolute inset-0 rounded-jar bg-white/20 backdrop-blur-md shadow-lg">
+              <div className="absolute inset-0 rounded-jar bg-gradient-to-r from-white/50 via-transparent to-white/50"></div>
+              <div className="absolute inset-0 rounded-jar bg-gradient-to-b from-white/40 via-transparent to-white/30"></div>
+              <div className="absolute inset-0 rounded-jar border border-white/40"></div>
               
               <div className="absolute -top-3 left-0 right-0 h-6">
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-t-3xl">
-                  <div className="absolute inset-x-0 top-1 h-0.5 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400"></div>
-                  <div className="absolute inset-x-0 bottom-1 h-0.5 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#e9d5ff] via-[#ddd6fe] to-[#e9d5ff] rounded-t-3xl">
+                  <div className="absolute inset-x-0 top-1 h-0.5 bg-gradient-to-r from-[#c4b5fd] via-[#a78bfa] to-[#c4b5fd]"></div>
+                  <div className="absolute inset-x-0 bottom-1 h-0.5 bg-gradient-to-r from-[#c4b5fd] via-[#a78bfa] to-[#c4b5fd]"></div>
                 </div>
                 <div className="absolute inset-x-0 top-0 h-full flex justify-around items-center overflow-hidden">
                   {Array.from({ length: 12 }).map((_, i) => (
-                    <div key={i} className="w-0.5 h-full bg-gray-400/30 transform -skew-x-12"></div>
+                    <div key={i} className="w-0.5 h-full bg-[#c4b5fd]/30 transform -skew-x-12"></div>
                   ))}
                 </div>
               </div>
 
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-12 h-6">
-                <div className="absolute w-full h-0.5 bg-amber-700/80 top-1/2 -translate-y-1/2"></div>
-                <div className="absolute w-3 h-3 border-2 border-amber-700/80 rounded-full left-1/2 -translate-x-1/2 transform rotate-45"></div>
-                <div className="absolute w-2 h-4 border-2 border-amber-700/80 rounded-full left-1/2 -translate-x-1/2 -translate-y-1"></div>
+                <div className="absolute w-full h-0.5 bg-[#8b5cf6]/80 top-1/2 -translate-y-1/2"></div>
+                <div className="absolute w-3 h-3 border-2 border-[#8b5cf6]/80 rounded-full left-1/2 -translate-x-1/2 transform rotate-45"></div>
+                <div className="absolute w-2 h-4 border-2 border-[#8b5cf6]/80 rounded-full left-1/2 -translate-x-1/2 -translate-y-1"></div>
               </div>
 
-              <div className="absolute left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 w-36 h-8 bg-gradient-to-r from-rose-50 via-white to-rose-50 backdrop-blur-md flex items-center justify-center transform -rotate-2 rounded-xl border border-rose-100 shadow-sm z-20">
-                <div className="text-gray-900 text-center font-['Comic_Sans_MS'] flex items-center gap-1 px-2">
-                  <span className="text-base font-medium">Gratitude Jar</span>
-                  <Heart className="h-3.5 w-3.5 text-rose-500" />
+              <div className="absolute left-1/2 -translate-x-1/2 top-1/3 -translate-y-1/2 w-36 h-8 bg-gradient-to-r from-[#f5f3ff] via-white to-[#f5f3ff] backdrop-blur-md flex items-center justify-center transform -rotate-2 rounded-xl border border-[#ddd6fe] shadow-sm z-20">
+                <div className="text-gray-800 text-center font-['Comic_Sans_MS'] flex items-center gap-1 px-2">
+                  <span className="text-base font-medium">GRATITUDE JAR</span>
+                  <Heart className="h-3.5 w-3.5 text-[#8b5cf6]" />
                 </div>
               </div>
 
@@ -125,14 +125,14 @@ const Index = () => {
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
           <CardHeader className="py-3">
             <CardTitle className="flex items-center gap-2 text-lg">
-              <Smile className="h-4 w-4 text-rose-500" />
+              <Smile className="h-4 w-4 text-[#8b5cf6]" />
               Today's Gratitude
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 pb-4">
             <Button 
               onClick={() => navigate('/create')} 
-              className="w-full bg-rose-500 hover:bg-rose-600 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
+              className="w-full bg-[#8b5cf6] hover:bg-[#7c3aed] shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
             >
               <PlusCircle className="mr-2 h-4 w-4" />
               Add New Entry
@@ -142,17 +142,17 @@ const Index = () => {
               <Button
                 variant="outline"
                 onClick={() => navigate('/jar')}
-                className="w-full border-2 hover:bg-rose-50 hover:border-rose-200 transition-colors"
+                className="w-full border-2 hover:bg-[#f5f3ff] hover:border-[#ddd6fe] transition-colors"
               >
-                <Heart className="mr-2 h-3 w-3 text-rose-500" />
+                <Heart className="mr-2 h-3 w-3 text-[#8b5cf6]" />
                 View Jar
               </Button>
               <Button
                 variant="outline"
                 onClick={() => navigate('/chat')}
-                className="w-full border-2 hover:bg-rose-50 hover:border-rose-200 transition-colors"
+                className="w-full border-2 hover:bg-[#f5f3ff] hover:border-[#ddd6fe] transition-colors"
               >
-                <Send className="mr-2 h-3 w-3 text-rose-500" />
+                <Send className="mr-2 h-3 w-3 text-[#8b5cf6]" />
                 Chat with Jari
               </Button>
             </div>
