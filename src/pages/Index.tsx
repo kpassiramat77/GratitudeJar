@@ -62,7 +62,7 @@ const Index = () => {
               <div className="absolute inset-0 rounded-jar bg-gradient-to-b from-white/30 via-transparent to-white/20"></div>
               <div className="absolute inset-0 rounded-jar border border-white/30"></div>
               <div className="absolute -top-4 left-0 right-0 h-8">
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-t-xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-t-3xl">
                   <div className="absolute inset-x-0 top-1 h-1 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400"></div>
                   <div className="absolute inset-x-0 bottom-1 h-1 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400"></div>
                 </div>
@@ -77,8 +77,8 @@ const Index = () => {
                 <div className="absolute w-4 h-4 border-2 border-amber-700/80 rounded-full left-1/2 -translate-x-1/2 transform rotate-45"></div>
                 <div className="absolute w-3 h-6 border-2 border-amber-700/80 rounded-full left-1/2 -translate-x-1/2 -translate-y-1"></div>
               </div>
-              <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-48 h-20 bg-gray-900/90 flex items-center justify-center transform -rotate-2">
-                <div className="text-white text-center">
+              <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-48 h-20 bg-white/10 backdrop-blur-sm flex items-center justify-center transform -rotate-2 rounded-xl border border-white/30">
+                <div className="text-gray-800 text-center">
                   <div className="text-2xl font-bold tracking-wider">GRATITUDE</div>
                   <div className="text-xl tracking-wide">JAR</div>
                 </div>
@@ -162,7 +162,8 @@ const Index = () => {
 
       <style>{`
         .rounded-jar {
-          border-radius: 2rem 2rem 1.5rem 1.5rem;
+          border-radius: 3rem 3rem 2.5rem 2.5rem;
+          transform: perspective(1000px) rotateY(-5deg);
         }
         
         @keyframes float {
