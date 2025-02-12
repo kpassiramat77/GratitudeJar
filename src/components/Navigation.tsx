@@ -40,7 +40,7 @@ const Navigation = () => {
                 </div>
               </div>
             </div>
-            <span className="text-xs">Jar</span>
+            <span className="text-xs">My Jar</span>
           </TabsTrigger>
           <TabsTrigger
             value="/chat"

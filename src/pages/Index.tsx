@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Heart, Send, Star, Smile } from "lucide-react";
@@ -145,7 +146,7 @@ const Index = () => {
                 className="w-full border-2 hover:bg-[#f5f3ff] hover:border-[#ddd6fe] transition-colors"
               >
                 <Heart className="mr-2 h-3 w-3 text-[#8b5cf6]" />
-                View Jar
+                My Jar
               </Button>
               <Button
                 variant="outline"
