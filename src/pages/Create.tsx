@@ -160,25 +160,27 @@ const Create = () => {
   };
 
   return (
-    <div className="min-h-screen bg-pastel-gradient-vertical flex items-start justify-center pt-4 sm:pt-8 px-4 pb-safe">
-      <div className="w-full max-w-md">
-        <h1 className="text-xl font-semibold mb-6 text-center text-purple-800">
+    <div className="h-[100dvh] bg-pastel-gradient-vertical flex items-start justify-center">
+      <div className="w-full max-w-md h-full flex flex-col pt-3 px-4 pb-20">
+        <h1 className="text-lg font-semibold mb-3 text-center text-purple-800">
           {id ? "Edit Sticker" : "Create Sticker"}
         </h1>
-        <div className="space-y-6">
-          <StickerCustomizer 
-            config={stickerConfig}
-            onChange={setStickerConfig}
-          />
-          
-          <GratitudeForm 
-            gratitudeText={gratitudeText}
-            isPublic={isPublic}
-            onGratitudeChange={setGratitudeText}
-            onPublicChange={setIsPublic}
-            onSubmit={handleSubmit}
-            onCancel={() => navigate(-1)}
-          />
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          <div className="space-y-4">
+            <StickerCustomizer 
+              config={stickerConfig}
+              onChange={setStickerConfig}
+            />
+            
+            <GratitudeForm 
+              gratitudeText={gratitudeText}
+              isPublic={isPublic}
+              onGratitudeChange={setGratitudeText}
+              onPublicChange={setIsPublic}
+              onSubmit={handleSubmit}
+              onCancel={() => navigate(-1)}
+            />
+          </div>
         </div>
       </div>
     </div>

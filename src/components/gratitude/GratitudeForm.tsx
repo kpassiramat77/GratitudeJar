@@ -26,7 +26,7 @@ export const GratitudeForm = ({
         e.preventDefault();
         onSubmit();
       }}
-      className="space-y-4"
+      className="space-y-3"
       role="form"
       aria-label="Gratitude entry form"
     >
@@ -42,7 +42,7 @@ export const GratitudeForm = ({
           placeholder="Express your gratitude..."
           value={gratitudeText}
           onChange={(e) => onGratitudeChange(e.target.value)}
-          className="min-h-[120px] resize-none text-base"
+          className="min-h-[80px] resize-none text-base"
           aria-required="true"
           aria-invalid={!gratitudeText.trim()}
           aria-describedby="gratitude-hint"
@@ -55,11 +55,11 @@ export const GratitudeForm = ({
         </span>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         <Button 
           type="submit"
           disabled={!gratitudeText.trim()}
-          className="w-full bg-rose-500 hover:bg-rose-600 text-white py-4 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
+          className="w-full bg-rose-500 hover:bg-rose-600 text-white py-3 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
           aria-label={!gratitudeText.trim() ? "Please write your gratitude before saving" : "Save your gratitude"}
         >
           ✨ Add to my Gratitude Jar
