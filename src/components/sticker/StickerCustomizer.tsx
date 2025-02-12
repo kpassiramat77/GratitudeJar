@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-export type Mood = "happy" | "excited" | "motivated" | "loved" | "peaceful" | "grateful" | "confident" | "blessed" | "joyful" | "optimistic" | "energetic" | "content" | "inspired";
+export type Mood = "accomplished" | "blessed" | "content" | "excited" | "grateful" | "happy" | "hopeful" | "inspired" | "loved" | "motivated" | "peaceful" | "proud" | "unsure";
 
 export interface StickerConfig {
   mood: Mood;
@@ -18,70 +18,70 @@ interface StickerCustomizerProps {
 
 export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) => {
   const moodEmojis: Record<Mood, { src: string, alt: string, color: string }> = {
-    happy: { 
+    accomplished: { 
       src: "/lovable-uploads/bbc2aca1-7202-42ce-8f8a-b82acb73be82.png",
-      alt: "Smiling face with sunglasses",
+      alt: "Accomplished face with sunglasses",
       color: "#BAE6FD"
+    },
+    blessed: { 
+      src: "/lovable-uploads/7071ed02-3767-43a2-8e02-7d93301373ed.png",
+      alt: "Blessed smiling face with halo",
+      color: "#A5B4FC"
+    },
+    content: { 
+      src: "/lovable-uploads/449b5720-4357-47a3-80a3-263a31713025.png",
+      alt: "Content smiling face",
+      color: "#93C5FD"
     },
     excited: { 
       src: "/lovable-uploads/855693cd-9b32-4aa4-847f-721315c226fe.png",
-      alt: "Excited face with halo",
+      alt: "Excited face with star eyes",
       color: "#E9D5FF"
     },
-    motivated: { 
-      src: "/lovable-uploads/c08d6f70-fd9b-4093-b99a-2ce4b8018112.png",
-      alt: "Motivated smiling face",
-      color: "#FED7AA"
+    grateful: {
+      src: "/lovable-uploads/65f8700a-195d-4b4f-b8ae-73c0cac09a5c.png",
+      alt: "Grateful face with hearts",
+      color: "#DDD6FE"
     },
-    loved: { 
+    happy: {
+      src: "/lovable-uploads/6304d2fb-0064-47aa-9fdd-7c9f2fd99cdd.png",
+      alt: "Happy smiling face",
+      color: "#FDE68A"
+    },
+    hopeful: {
+      src: "/lovable-uploads/5e3faeda-08d8-496a-b248-b8e08e4d970f.png",
+      alt: "Hopeful face",
+      color: "#FFDBB5"
+    },
+    inspired: {
+      src: "/lovable-uploads/4388b5e6-bdd5-438e-9601-b361d8af7032.png",
+      alt: "Inspired face with tongue out",
+      color: "#C4B5FD"
+    },
+    loved: {
       src: "/lovable-uploads/fb3c5db8-5a82-46cc-b05f-01beed3c07ca.png",
-      alt: "Face with hearts",
+      alt: "Loved face with hearts",
       color: "#FBCFE8"
+    },
+    motivated: {
+      src: "/lovable-uploads/c08d6f70-fd9b-4093-b99a-2ce4b8018112.png",
+      alt: "Motivated face with steam",
+      color: "#FED7AA"
     },
     peaceful: {
       src: "/lovable-uploads/0026f39f-8263-45dc-bccf-4de6a340040c.png",
       alt: "Peaceful smiling face",
       color: "#BBF7D0"
     },
-    grateful: {
-      src: "/lovable-uploads/65f8700a-195d-4b4f-b8ae-73c0cac09a5c.png",
-      alt: "Grateful smiling face",
-      color: "#DDD6FE"
-    },
-    confident: {
-      src: "/lovable-uploads/6304d2fb-0064-47aa-9fdd-7c9f2fd99cdd.png",
-      alt: "Confident face",
-      color: "#FDE68A"
-    },
-    blessed: {
-      src: "/lovable-uploads/7071ed02-3767-43a2-8e02-7d93301373ed.png",
-      alt: "Blessed happy face",
-      color: "#A5B4FC"
-    },
-    joyful: {
+    proud: {
       src: "/lovable-uploads/cb090a50-8c08-43c4-9b85-f7559cc42fcb.png",
-      alt: "Joyful face with hearts",
+      alt: "Proud party face",
       color: "#FDA4AF"
     },
-    optimistic: {
-      src: "/lovable-uploads/5e3faeda-08d8-496a-b248-b8e08e4d970f.png",
-      alt: "Optimistic relaxed face",
-      color: "#FFDBB5"
-    },
-    energetic: {
+    unsure: {
       src: "/lovable-uploads/6aa6af5a-86f9-4a5a-a113-04aee059f525.png",
-      alt: "Energetic face",
+      alt: "Unsure thinking face",
       color: "#FCA5A5"
-    },
-    content: {
-      src: "/lovable-uploads/449b5720-4357-47a3-80a3-263a31713025.png",
-      alt: "Content face with party decorations",
-      color: "#93C5FD"
-    },
-    inspired: {
-      src: "/lovable-uploads/4388b5e6-bdd5-438e-9601-b361d8af7032.png",
-      alt: "Inspired thinking face",
-      color: "#C4B5FD"
     }
   };
 
