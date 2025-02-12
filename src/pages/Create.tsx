@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,7 +12,6 @@ const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [stickerConfig, setStickerConfig] = useState<StickerConfig>({
-    shape: "circle",
     mood: "happy",
     color: "#F2FCE2",
     text: "",
