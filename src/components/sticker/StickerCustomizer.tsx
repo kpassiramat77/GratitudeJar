@@ -115,7 +115,7 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
             padding: 0.75rem;
             transition: all 0.2s;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            min-width: 80px;
+            min-width: 85px;
             flex-shrink: 0;
           }
 
@@ -131,8 +131,8 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
 
           .mood-row {
             display: flex;
-            gap: 0.75rem;
-            padding: 0.5rem;
+            gap: 1rem;
+            padding: 0.75rem;
           }
         `}
       </style>
