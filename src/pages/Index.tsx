@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Heart, Send } from "lucide-react";
@@ -8,15 +7,12 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4">
+    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4 pb-24">
       <div className="max-w-md mx-auto space-y-6">
-        {/* Header */}
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">GratitudeJar</h1>
           <p className="text-gray-600">Capture your moments of gratitude</p>
         </div>
-
-        {/* Quick Actions */}
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>Today's Gratitude</CardTitle>
