@@ -19,67 +19,67 @@ interface StickerCustomizerProps {
 export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) => {
   const moodEmojis: Record<Mood, { src: string, alt: string, color: string }> = {
     happy: { 
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/b50863b3-305a-4ae8-9485-f710dc6919c4.png",
       alt: "Smiling face with sunglasses",
       color: "#BAE6FD"
     },
     excited: { 
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/ae56e191-06ab-492a-b11a-fadc905e402e.png",
       alt: "Smiling face with halo",
       color: "#E9D5FF"
     },
     motivated: { 
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/1f0174e4-1340-4ebe-a6d8-9be7358b2de7.png",
       alt: "Smiling face with blushing cheeks",
       color: "#FED7AA"
     },
     loved: { 
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/bba73aca-c6eb-4d9f-a5b3-05f58b36fba2.png",
       alt: "Smiling face with hearts",
       color: "#FBCFE8"
     },
     peaceful: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/93a79c7e-9492-473f-948f-ef209591f578.png",
       alt: "Peaceful face emoji",
       color: "#BBF7D0"
     },
     grateful: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/70c0bc6e-907e-434d-b667-6861a15d3ed8.png",
       alt: "Grateful face emoji",
       color: "#DDD6FE"
     },
     confident: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/8d046852-9c5c-4123-9a4f-fcf28d665439.png",
       alt: "Confident face emoji",
       color: "#FDE68A"
     },
     blessed: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/0d9eb8bd-825e-4b19-9957-2105c5754d4a.png",
       alt: "Blessed face emoji",
       color: "#A5B4FC"
     },
     joyful: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/c2c7f613-bf8f-4517-82de-6981817dce57.png",
       alt: "Joyful face emoji",
       color: "#FDA4AF"
     },
     optimistic: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/78e88de0-2a5c-4880-825f-e75d16c26c48.png",
       alt: "Optimistic face emoji",
       color: "#FFDBB5"
     },
     energetic: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/4cdaaecd-c8e8-40ad-b984-fce4cc5c55a6.png",
       alt: "Energetic face emoji",
       color: "#FCA5A5"
     },
     content: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/2a9c0a76-f10a-4f2c-b755-d20d53195002.png",
       alt: "Content face emoji",
       color: "#93C5FD"
     },
     inspired: {
-      src: "/lovable-uploads/6a4bfd33-d152-45a1-95fb-b25c065beccf.png",
+      src: "/lovable-uploads/8b76f102-aa87-4cb2-8c75-fd3bd9f24425.png",
       alt: "Inspired face emoji",
       color: "#C4B5FD"
     }
