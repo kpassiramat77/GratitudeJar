@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
@@ -26,10 +25,10 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
   const renderPreview = () => {
     return (
       <div 
-        className="relative w-40 h-40 mx-auto mb-8 rounded-full flex items-center justify-center shadow-lg"
+        className="relative w-28 h-28 mx-auto mb-4 rounded-full flex items-center justify-center shadow-lg"
         style={{ backgroundColor: config.color }}
       >
-        <span className="text-6xl emoji-3d transform-gpu transition-transform hover:scale-110">
+        <span className="text-5xl emoji-3d transform-gpu transition-transform hover:scale-110">
           {moodEmojis[config.mood]}
         </span>
       </div>
@@ -37,7 +36,7 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <style>
         {`
           .emoji-3d {
@@ -54,28 +53,19 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
               0 5px 10px rgba(0,0,0,.25),
               0 10px 10px rgba(0,0,0,.2),
               0 20px 20px rgba(0,0,0,.15);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            animation: float 6s ease-in-out infinite;
           }
 
           @keyframes float {
-            0% {
-              transform: translateY(0px);
-            }
-            50% {
-              transform: translateY(-10px);
-            }
-            100% {
-              transform: translateY(0px);
-            }
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
           }
 
           .mood-button {
             background: white;
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 1rem;
+            border-radius: 12px;
+            padding: 0.75rem;
             transition: all 0.2s;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
           }
@@ -100,35 +90,35 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
       {renderPreview()}
       
       <div>
-        <Label className="text-xl font-medium text-gray-800 mb-4">How are you feeling?</Label>
-        <div className="grid grid-cols-4 gap-4 mt-4">
+        <Label className="text-base font-medium text-gray-800 mb-2">How are you feeling?</Label>
+        <div className="grid grid-cols-4 gap-2 mt-2">
           <button
             className={`mood-button ${config.mood === "happy" ? "selected happy" : ""}`}
             onClick={() => onChange({ ...config, mood: "happy", color: "#BAE6FD" })}
           >
-            <span className="emoji-3d text-3xl block mb-2">{moodEmojis.happy}</span>
-            <span className="text-sm text-gray-600 font-medium">Happy</span>
+            <span className="emoji-3d text-2xl block mb-1">{moodEmojis.happy}</span>
+            <span className="text-xs text-gray-600 font-medium">Happy</span>
           </button>
           <button
             className={`mood-button ${config.mood === "excited" ? "selected excited" : ""}`}
             onClick={() => onChange({ ...config, mood: "excited", color: "#E9D5FF" })}
           >
-            <span className="emoji-3d text-3xl block mb-2">{moodEmojis.excited}</span>
-            <span className="text-sm text-gray-600 font-medium">Excited</span>
+            <span className="emoji-3d text-2xl block mb-1">{moodEmojis.excited}</span>
+            <span className="text-xs text-gray-600 font-medium">Excited</span>
           </button>
           <button
             className={`mood-button ${config.mood === "motivated" ? "selected motivated" : ""}`}
             onClick={() => onChange({ ...config, mood: "motivated", color: "#FED7AA" })}
           >
-            <span className="emoji-3d text-3xl block mb-2">{moodEmojis.motivated}</span>
-            <span className="text-sm text-gray-600 font-medium">Motivated</span>
+            <span className="emoji-3d text-2xl block mb-1">{moodEmojis.motivated}</span>
+            <span className="text-xs text-gray-600 font-medium">Motivated</span>
           </button>
           <button
             className={`mood-button ${config.mood === "loved" ? "selected loved" : ""}`}
             onClick={() => onChange({ ...config, mood: "loved", color: "#FBCFE8" })}
           >
-            <span className="emoji-3d text-3xl block mb-2">{moodEmojis.loved}</span>
-            <span className="text-sm text-gray-600 font-medium">Loved</span>
+            <span className="emoji-3d text-2xl block mb-1">{moodEmojis.loved}</span>
+            <span className="text-xs text-gray-600 font-medium">Loved</span>
           </button>
         </div>
       </div>

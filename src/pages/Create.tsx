@@ -74,10 +74,10 @@ const Create = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-md mx-auto px-4 py-6">
-        <h1 className="text-2xl font-semibold mb-6">Create Sticker</h1>
-        <div className="space-y-8">
+    <div className="h-screen bg-white flex items-center justify-center">
+      <div className="w-full max-w-md px-4">
+        <h1 className="text-xl font-semibold mb-4">Create Sticker</h1>
+        <div className="space-y-4">
           <StickerCustomizer 
             config={stickerConfig}
             onChange={setStickerConfig}

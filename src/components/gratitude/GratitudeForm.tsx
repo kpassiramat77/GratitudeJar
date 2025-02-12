@@ -21,21 +21,21 @@ export const GratitudeForm = ({
   onCancel
 }: GratitudeFormProps) => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="space-y-2">
-        <Label className="text-lg">What are you grateful for?</Label>
+        <Label className="text-base">What are you grateful for?</Label>
         <Textarea
           placeholder="Express your gratitude..."
           value={gratitudeText}
           onChange={(e) => onGratitudeChange(e.target.value)}
-          className="min-h-[120px] resize-none text-base"
+          className="min-h-[80px] resize-none text-sm"
         />
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-2">
         <Button 
           onClick={onSubmit} 
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
         >
           ✨ Add to my Gratitude Jar
         </Button>
@@ -43,7 +43,7 @@ export const GratitudeForm = ({
         <Button
           onClick={onCancel}
           variant="ghost"
-          className="w-full"
+          className="w-full py-2 text-sm"
         >
           Cancel
         </Button>
