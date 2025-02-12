@@ -14,6 +14,7 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          is_favorite: boolean | null
           is_public: boolean | null
           sticker: Json | null
           user_id: string
@@ -22,6 +23,7 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          is_favorite?: boolean | null
           is_public?: boolean | null
           sticker?: Json | null
           user_id: string
@@ -30,6 +32,7 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          is_favorite?: boolean | null
           is_public?: boolean | null
           sticker?: Json | null
           user_id?: string
