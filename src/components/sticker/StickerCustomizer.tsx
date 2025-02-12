@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export type Mood = "happy" | "sad" | "neutral";
@@ -30,11 +29,6 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
         style={{ backgroundColor: config.color }}
       >
         <span className="text-5xl">{moodEmojis[config.mood]}</span>
-        {config.text && (
-          <div className="absolute bottom-2 left-0 right-0 text-center text-sm font-medium truncate px-2">
-            {config.text}
-          </div>
-        )}
       </div>
     );
   };
@@ -85,16 +79,6 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
               />
             ))}
           </div>
-        </div>
-
-        <div>
-          <Label>Sticker Text</Label>
-          <Input
-            value={config.text}
-            onChange={(e) => onChange({ ...config, text: e.target.value })}
-            placeholder="Add text to your sticker..."
-            maxLength={20}
-          />
         </div>
       </div>
     </div>

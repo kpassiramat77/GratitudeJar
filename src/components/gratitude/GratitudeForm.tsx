@@ -30,6 +30,7 @@ export const GratitudeForm = ({
           placeholder="I'm grateful for..."
           value={gratitudeText}
           onChange={(e) => onGratitudeChange(e.target.value)}
+          className="min-h-[80px] resize-none py-2"
         />
       </div>
 
