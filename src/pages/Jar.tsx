@@ -5,6 +5,11 @@ import { Calendar } from "lucide-react";
 import { useAuthStore } from "@/lib/auth-store";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { format } from "date-fns";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 
 interface GratitudeEntry {
   id: string;
@@ -26,6 +31,7 @@ const Jar = () => {
   const [entries, setEntries] = useState<GratitudeEntry[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
 
   const moodEmojis: Record<string, { src: string, alt: string, color: string }> = {
     happy: { 
@@ -106,6 +112,14 @@ const Jar = () => {
 
     if (activeFilter && moodEmojis[activeFilter]) {
       query = query.eq('sticker->>mood', activeFilter);
+    }
+
+    if (dateRange?.from) {
+      query = query.gte('created_at', dateRange.from.toISOString());
+    }
+    if (dateRange?.to) {
+      const endDate = addDays(dateRange.to, 1);
+      query = query.lt('created_at', endDate.toISOString());
     }
 
     const { data, error } = await query;
@@ -195,7 +209,7 @@ const Jar = () => {
 
   useEffect(() => {
     fetchEntries();
-  }, [user, activeFilter, sortOrder]);
+  }, [user, activeFilter, sortOrder, dateRange]);
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -240,13 +254,40 @@ const Jar = () => {
         >
           🕒 {sortOrder === "newest" ? "Newest First" : "Oldest First"}
         </Button>
-        <Button
-          variant="ghost"
-          className="rounded-full px-6 py-2"
-        >
-          <Calendar className="w-4 h-4 mr-2" />
-          Select Date Range
-        </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              className={`rounded-full px-6 py-2 ${
+                dateRange?.from ? 'bg-purple-100 text-purple-900' : ''
+              }`}
+            >
+              <Calendar className="w-4 h-4 mr-2" />
+              {dateRange?.from ? (
+                dateRange.to ? (
+                  <>
+                    {format(dateRange.from, "LLL dd, y")} -{" "}
+                    {format(dateRange.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  format(dateRange.from, "LLL dd, y")
+                )
+              ) : (
+                "Select Date Range"
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <CalendarComponent
+              initialFocus
+              mode="range"
+              defaultMonth={dateRange?.from}
+              selected={dateRange}
+              onSelect={setDateRange}
+              numberOfMonths={2}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div className="space-y-4">
