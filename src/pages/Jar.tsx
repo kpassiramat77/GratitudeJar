@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -116,6 +115,7 @@ const Jar = () => {
         title: "Error loading entries",
         description: "Could not load your gratitude entries",
         variant: "destructive",
+        duration: 500,
       });
       return;
     }
@@ -149,6 +149,7 @@ const Jar = () => {
         title: "Error deleting entry",
         description: "Could not delete the gratitude entry",
         variant: "destructive",
+        duration: 500,
       });
       return;
     }
@@ -156,9 +157,9 @@ const Jar = () => {
     toast({
       title: "Entry deleted",
       description: "Your gratitude entry has been removed",
+      duration: 500,
     });
     
-    // Refresh entries after deletion
     fetchEntries();
   };
 
@@ -176,6 +177,7 @@ const Jar = () => {
         title: "Error updating entry",
         description: "Could not update favorite status",
         variant: "destructive",
+        duration: 500,
       });
       return;
     }
@@ -185,9 +187,9 @@ const Jar = () => {
       description: entry.is_favorite 
         ? "Entry removed from your favorites" 
         : "Entry added to your favorites",
+      duration: 500,
     });
     
-    // Refresh entries after toggling favorite
     fetchEntries();
   };
 
@@ -199,7 +201,6 @@ const Jar = () => {
     <div className="min-h-screen bg-white p-4">
       <h1 className="text-4xl font-bold mb-6 text-gray-900">My Gratitude Jar</h1>
       
-      {/* Mood Filters */}
       <div className="flex gap-2 overflow-x-auto pb-4 mb-4">
         {Object.entries(moodEmojis).map(([mood, { src, alt, color }]) => (
           <Button
@@ -222,7 +223,6 @@ const Jar = () => {
         ))}
       </div>
 
-      {/* Sort and Filter Options */}
       <div className="flex flex-wrap gap-2 mb-6">
         <Button
           variant="ghost"
@@ -249,7 +249,6 @@ const Jar = () => {
         </Button>
       </div>
 
-      {/* Gratitude Entries */}
       <div className="space-y-4">
         {entries.length === 0 ? (
           <div className="text-center py-8">
