@@ -28,21 +28,72 @@ const Jar = () => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
-  const moodEmojis: Record<string, string> = {
-    happy: "😃",
-    excited: "🤩",
-    motivated: "🥺",
-    loved: "🥰"
-  };
-
-  const getDefaultStickerColor = (mood: string) => {
-    const colorMap: Record<string, string> = {
-      happy: "#BAE6FD",
-      excited: "#E9D5FF",
-      motivated: "#FED7AA",
-      loved: "#FBCFE8"
-    };
-    return colorMap[mood] || "#F3F4F6";
+  const moodEmojis: Record<string, { src: string, alt: string, color: string }> = {
+    happy: { 
+      src: "/lovable-uploads/bbc2aca1-7202-42ce-8f8a-b82acb73be82.png",
+      alt: "Smiling face with sunglasses",
+      color: "#BAE6FD"
+    },
+    excited: { 
+      src: "/lovable-uploads/855693cd-9b32-4aa4-847f-721315c226fe.png",
+      alt: "Excited face with halo",
+      color: "#E9D5FF"
+    },
+    motivated: { 
+      src: "/lovable-uploads/c08d6f70-fd9b-4093-b99a-2ce4b8018112.png",
+      alt: "Motivated smiling face",
+      color: "#FED7AA"
+    },
+    loved: { 
+      src: "/lovable-uploads/fb3c5db8-5a82-46cc-b05f-01beed3c07ca.png",
+      alt: "Face with hearts",
+      color: "#FBCFE8"
+    },
+    peaceful: {
+      src: "/lovable-uploads/0026f39f-8263-45dc-bccf-4de6a340040c.png",
+      alt: "Peaceful smiling face",
+      color: "#BBF7D0"
+    },
+    grateful: {
+      src: "/lovable-uploads/65f8700a-195d-4b4f-b8ae-73c0cac09a5c.png",
+      alt: "Grateful smiling face",
+      color: "#DDD6FE"
+    },
+    confident: {
+      src: "/lovable-uploads/6304d2fb-0064-47aa-9fdd-7c9f2fd99cdd.png",
+      alt: "Confident face",
+      color: "#FDE68A"
+    },
+    blessed: {
+      src: "/lovable-uploads/7071ed02-3767-43a2-8e02-7d93301373ed.png",
+      alt: "Blessed happy face",
+      color: "#A5B4FC"
+    },
+    joyful: {
+      src: "/lovable-uploads/cb090a50-8c08-43c4-9b85-f7559cc42fcb.png",
+      alt: "Joyful face with hearts",
+      color: "#FDA4AF"
+    },
+    optimistic: {
+      src: "/lovable-uploads/5e3faeda-08d8-496a-b248-b8e08e4d970f.png",
+      alt: "Optimistic relaxed face",
+      color: "#FFDBB5"
+    },
+    energetic: {
+      src: "/lovable-uploads/6aa6af5a-86f9-4a5a-a113-04aee059f525.png",
+      alt: "Energetic face",
+      color: "#FCA5A5"
+    },
+    content: {
+      src: "/lovable-uploads/449b5720-4357-47a3-80a3-263a31713025.png",
+      alt: "Content face with party decorations",
+      color: "#93C5FD"
+    },
+    inspired: {
+      src: "/lovable-uploads/4388b5e6-bdd5-438e-9601-b361d8af7032.png",
+      alt: "Inspired thinking face",
+      color: "#C4B5FD"
+    }
   };
 
   const fetchEntries = async () => {
@@ -54,8 +105,7 @@ const Jar = () => {
       .eq('user_id', user.id)
       .order('created_at', { ascending: sortOrder === "oldest" });
 
-    // Apply mood filter if active
-    if (activeFilter && Object.keys(moodEmojis).includes(activeFilter)) {
+    if (activeFilter && moodEmojis[activeFilter]) {
       query = query.eq('sticker->>mood', activeFilter);
     }
 
@@ -70,16 +120,15 @@ const Jar = () => {
       return;
     }
     
-    // Cast the data to match our interface and ensure sticker data is valid
     const typedData = (data || []).map(entry => ({
       ...entry,
       is_favorite: entry.is_favorite || false,
       sticker: entry.sticker ? {
         mood: (entry.sticker as any).mood || 'happy',
-        color: (entry.sticker as any).color || getDefaultStickerColor((entry.sticker as any).mood || 'happy')
+        color: (entry.sticker as any).color || moodEmojis['happy'].color
       } : {
         mood: 'happy',
-        color: getDefaultStickerColor('happy')
+        color: moodEmojis['happy'].color
       }
     }));
     
@@ -152,7 +201,7 @@ const Jar = () => {
       
       {/* Mood Filters */}
       <div className="flex gap-2 overflow-x-auto pb-4 mb-4">
-        {Object.entries(moodEmojis).map(([mood, emoji]) => (
+        {Object.entries(moodEmojis).map(([mood, { src, alt, color }]) => (
           <Button
             key={mood}
             onClick={() => setActiveFilter(activeFilter === mood ? null : mood)}
@@ -163,8 +212,12 @@ const Jar = () => {
             }`}
             variant="ghost"
           >
-            <span className="text-xl">{emoji}</span>
-            <span className="font-medium">{mood}</span>
+            <img 
+              src={src} 
+              alt={alt}
+              className="w-6 h-6 object-contain"
+            />
+            <span className="font-medium capitalize">{mood}</span>
           </Button>
         ))}
       </div>
@@ -214,14 +267,16 @@ const Jar = () => {
               key={entry.id}
               className="p-6 rounded-3xl shadow-sm"
               style={{ 
-                backgroundColor: entry.sticker?.color || getDefaultStickerColor(entry.sticker?.mood || 'happy')
+                backgroundColor: entry.sticker?.color || moodEmojis['happy'].color
               }}
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-4xl mb-4 block">
-                    {moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis] || moodEmojis.happy}
-                  </span>
+                  <img 
+                    src={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.src || moodEmojis['happy'].src}
+                    alt={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.alt || moodEmojis['happy'].alt}
+                    className="w-12 h-12 mb-4 object-contain"
+                  />
                   <p className="text-gray-800 text-lg">{entry.content}</p>
                 </div>
               </div>
