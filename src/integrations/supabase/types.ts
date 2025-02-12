@@ -15,6 +15,7 @@ export type Database = {
           created_at: string
           id: string
           is_public: boolean | null
+          sticker: Json | null
           user_id: string
         }
         Insert: {
@@ -22,6 +23,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_public?: boolean | null
+          sticker?: Json | null
           user_id: string
         }
         Update: {
@@ -29,6 +31,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_public?: boolean | null
+          sticker?: Json | null
           user_id?: string
         }
         Relationships: []
