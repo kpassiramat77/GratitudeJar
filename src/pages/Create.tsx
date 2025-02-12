@@ -74,7 +74,7 @@ const Create = () => {
   };
 
   return (
-    <div className="h-screen bg-white flex items-center justify-center">
+    <div className="min-h-screen bg-white flex items-start justify-center pt-8">
       <div className="w-full max-w-md px-4">
         <h1 className="text-xl font-semibold mb-4">Create Sticker</h1>
         <div className="space-y-4">
