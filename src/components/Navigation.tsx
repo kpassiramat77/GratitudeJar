@@ -1,7 +1,7 @@
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Home, PlusCircle, MessageCircle, User } from "lucide-react";
+import { Home, PlusCircle, MessageCircle } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
@@ -11,7 +11,7 @@ const Navigation = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t">
       <Tabs value={currentPath} className="w-full max-w-md mx-auto">
-        <TabsList className="grid w-full grid-cols-5 bg-rose-50/50">
+        <TabsList className="grid w-full grid-cols-4 bg-rose-50/50">
           <TabsTrigger
             value="/"
             onClick={() => navigate("/")}
@@ -49,14 +49,6 @@ const Navigation = () => {
           >
             <MessageCircle className="h-5 w-5" />
             <span className="text-xs">Chat</span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="/profile"
-            onClick={() => navigate("/profile")}
-            className="data-[state=active]:bg-rose-100 hover:bg-rose-50 flex flex-col items-center gap-1 py-2 text-rose-700"
-          >
-            <User className="h-5 w-5" />
-            <span className="text-xs">Profile</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>

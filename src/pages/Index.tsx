@@ -1,6 +1,7 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Heart, Send, Star, Smile, Gift, Flower, Leaf } from "lucide-react";
+import { PlusCircle, Heart, Send, Star, Smile, Gift, Flower, Leaf, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const samplePrompts = [
@@ -47,7 +48,13 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4">
       <div className="max-w-md mx-auto space-y-4">
-        <div className="text-center pt-2 space-y-2">
+        <div className="text-center pt-2 space-y-2 relative">
+          <button
+            onClick={() => navigate('/profile')}
+            className="absolute right-0 top-0 p-2 text-gray-600 hover:text-rose-500 transition-colors"
+          >
+            <User className="h-6 w-6" />
+          </button>
           <div className="flex justify-center">
             <Star className="h-8 w-8 text-rose-500 animate-pulse" />
           </div>
