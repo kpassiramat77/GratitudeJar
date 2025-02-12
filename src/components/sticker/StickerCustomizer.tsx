@@ -94,7 +94,7 @@ export const StickerCustomizer = ({ config, onChange }: StickerCustomizerProps) 
         <img 
           src={moodEmojis[config.mood].src}
           alt={moodEmojis[config.mood].alt}
-          className="w-24 h-24 object-contain transform-gpu transition-transform hover:scale-110"
+          className="w-24 h-24 object-contain transform-gpu transition-transform hover:scale-110 relative z-10"
           onError={(e) => {
             console.error(`Failed to load image: ${moodEmojis[config.mood].src}`);
             e.currentTarget.style.opacity = '0.5';
