@@ -79,6 +79,11 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Add padding to the bottom of the page when navigation is present */
+  body.has-navigation {
+    padding-bottom: calc(4rem + 1px); /* 4rem for the nav height plus 1px for the border */
+  }
 }
 
 /* Custom gradient backgrounds */

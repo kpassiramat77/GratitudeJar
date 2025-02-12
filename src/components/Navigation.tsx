@@ -2,14 +2,21 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Home, PlusCircle, MessageCircle } from "lucide-react";
+import { useEffect } from "react";
 
 const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
 
+  // Add a class to the document body that will help us add padding
+  useEffect(() => {
+    document.body.classList.add('has-navigation');
+    return () => document.body.classList.remove('has-navigation');
+  }, []);
+
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t">
+    <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t z-50">
       <Tabs value={currentPath} className="w-full max-w-md mx-auto">
         <TabsList className="grid w-full grid-cols-4 bg-secondary">
           <TabsTrigger
