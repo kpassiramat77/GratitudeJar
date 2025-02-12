@@ -9,6 +9,12 @@ import { GratitudeForm } from "@/components/gratitude/GratitudeForm";
 import { stickerConfigToJson } from "@/utils/sticker-utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+interface StickerData {
+  mood: string;
+  color: string;
+  text?: string;
+}
+
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
   const [isPublic, setIsPublic] = useState(false);
@@ -54,11 +60,12 @@ const Create = () => {
         if (data) {
           setGratitudeText(data.content);
           setIsPublic(data.is_public);
-          if (data.sticker) {
+          if (data.sticker && typeof data.sticker === 'object') {
+            const stickerData = data.sticker as StickerData;
             setStickerConfig({
-              mood: data.sticker.mood || "happy",
-              color: data.sticker.color || "#F4E7FF",
-              text: "",
+              mood: stickerData.mood || "happy",
+              color: stickerData.color || "#F4E7FF",
+              text: stickerData.text || "",
             });
           }
         }
