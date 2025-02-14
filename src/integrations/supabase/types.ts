@@ -56,53 +56,98 @@ export type Database = {
       }
       gratitudes: {
         Row: {
+          categories: string[] | null
           content: string
           created_at: string
           id: string
           is_favorite: boolean | null
           is_public: boolean | null
+          mood_intensity: number | null
           sticker: Json | null
+          tags: string[] | null
           user_id: string
         }
         Insert: {
+          categories?: string[] | null
           content: string
           created_at?: string
           id?: string
           is_favorite?: boolean | null
           is_public?: boolean | null
+          mood_intensity?: number | null
           sticker?: Json | null
+          tags?: string[] | null
           user_id: string
         }
         Update: {
+          categories?: string[] | null
           content?: string
           created_at?: string
           id?: string
           is_favorite?: boolean | null
           is_public?: boolean | null
+          mood_intensity?: number | null
           sticker?: Json | null
+          tags?: string[] | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      mood_analytics: {
+        Row: {
+          average_mood_intensity: number | null
+          created_at: string | null
+          date: string | null
+          id: string
+          total_entries: number | null
+          user_id: string | null
+        }
+        Insert: {
+          average_mood_intensity?: number | null
+          created_at?: string | null
+          date?: string | null
+          id?: string
+          total_entries?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          average_mood_intensity?: number | null
+          created_at?: string | null
+          date?: string | null
+          id?: string
+          total_entries?: number | null
+          user_id?: string | null
         }
         Relationships: []
       }
       profiles: {
         Row: {
           avatar_url: string | null
+          current_streak: number | null
           full_name: string | null
           id: string
+          last_gratitude_date: string | null
+          longest_streak: number | null
           updated_at: string
           username: string | null
         }
         Insert: {
           avatar_url?: string | null
+          current_streak?: number | null
           full_name?: string | null
           id: string
+          last_gratitude_date?: string | null
+          longest_streak?: number | null
           updated_at?: string
           username?: string | null
         }
         Update: {
           avatar_url?: string | null
+          current_streak?: number | null
           full_name?: string | null
           id?: string
+          last_gratitude_date?: string | null
+          longest_streak?: number | null
           updated_at?: string
           username?: string | null
         }

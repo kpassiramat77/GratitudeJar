@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/lib/auth-store";
@@ -7,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { ChevronRight, Bell, Settings, HelpCircle, LogOut, UserCircle } from "lucide-react";
+import { MoodAnalytics } from "@/components/analytics/MoodAnalytics";
 
 interface Profile {
   username: string | null;
@@ -210,6 +210,11 @@ const Profile = () => {
             <p className="text-3xl font-bold">{stats.days_streak}</p>
             <p className="text-sm text-gray-500">Days Streak</p>
           </div>
+        </div>
+
+        <div className="px-4 py-6">
+          <h2 className="text-xl font-semibold mb-4">Your Gratitude Journey</h2>
+          {user && <MoodAnalytics userId={user.id} />}
         </div>
 
         <div className="px-4 py-2">

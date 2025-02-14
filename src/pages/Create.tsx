@@ -14,7 +14,6 @@ interface StickerData {
   text?: string;
 }
 
-// Type guard to check if a value is a valid StickerData
 const isStickerData = (value: unknown): value is StickerData => {
   if (!value || typeof value !== 'object') return false;
   const obj = value as Record<string, unknown>;
@@ -30,6 +29,7 @@ const isStickerData = (value: unknown): value is StickerData => {
 const Create = () => {
   const [gratitudeText, setGratitudeText] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [moodIntensity, setMoodIntensity] = useState(3);
   const [stickerConfig, setStickerConfig] = useState<StickerConfig>({
     mood: "happy",
     color: "#F4E7FF",
@@ -49,7 +49,6 @@ const Create = () => {
     }
 
     if (id) {
-      // Fetch the gratitude entry if we're editing
       const fetchGratitude = async () => {
         const { data, error } = await supabase
           .from('gratitudes')
@@ -86,6 +85,48 @@ const Create = () => {
     }
   }, [user, id, navigate, toast]);
 
+  const updateStreakAndAnalytics = async (userId: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('current_streak, longest_streak, last_gratitude_date')
+      .eq('id', userId)
+      .single();
+
+    if (profile) {
+      const lastDate = profile.last_gratitude_date;
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+      let newStreak = 1;
+      if (lastDate === yesterdayStr) {
+        newStreak = profile.current_streak + 1;
+      }
+
+      await supabase
+        .from('profiles')
+        .update({
+          current_streak: newStreak,
+          longest_streak: Math.max(newStreak, profile.longest_streak || 0),
+          last_gratitude_date: today
+        })
+        .eq('id', userId);
+
+      await supabase
+        .from('mood_analytics')
+        .upsert({
+          user_id: userId,
+          date: today,
+          average_mood_intensity: moodIntensity,
+          total_entries: 1
+        }, {
+          onConflict: 'user_id,date'
+        });
+    }
+  };
+
   const handleSubmit = async () => {
     if (!gratitudeText.trim()) {
       toast({
@@ -109,13 +150,13 @@ const Create = () => {
 
     try {
       if (id) {
-        // Update existing entry
         const { error } = await supabase
           .from('gratitudes')
           .update({
             content: gratitudeText.trim(),
             is_public: isPublic,
-            sticker: stickerConfigToJson(stickerConfig)
+            sticker: stickerConfigToJson(stickerConfig),
+            mood_intensity: moodIntensity
           })
           .eq('id', id)
           .eq('user_id', user.id);
@@ -128,17 +169,19 @@ const Create = () => {
           duration: 500,
         });
       } else {
-        // Create new entry
         const { error } = await supabase
           .from('gratitudes')
           .insert({
             content: gratitudeText.trim(),
             is_public: isPublic,
             user_id: user.id,
-            sticker: stickerConfigToJson(stickerConfig)
+            sticker: stickerConfigToJson(stickerConfig),
+            mood_intensity: moodIntensity
           });
 
         if (error) throw error;
+
+        await updateStreakAndAnalytics(user.id);
 
         toast({
           title: "Added to your Gratitude Jar",
@@ -170,6 +213,24 @@ const Create = () => {
             config={stickerConfig}
             onChange={setStickerConfig}
           />
+          
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              How intense is this feeling? (1-5)
+            </label>
+            <input
+              type="range"
+              min="1"
+              max="5"
+              value={moodIntensity}
+              onChange={(e) => setMoodIntensity(Number(e.target.value))}
+              className="w-full"
+            />
+            <div className="flex justify-between text-xs text-gray-500">
+              <span>Mild</span>
+              <span>Strong</span>
+            </div>
+          </div>
           
           <GratitudeForm 
             gratitudeText={gratitudeText}
