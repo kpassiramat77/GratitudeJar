@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Line } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Trophy, Flame, Calendar } from "lucide-react";
@@ -91,17 +91,19 @@ export const MoodAnalytics = ({ userId }: { userId: string }) => {
         <Card className="p-4">
           <h3 className="text-lg font-semibold mb-4">Mood Trend</h3>
           <div className="w-full h-[200px]">
-            <Line
-              data={analytics}
-              margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-            >
-              <Line 
-                type="monotone" 
-                dataKey="average_mood_intensity" 
-                stroke="hsl(var(--primary))" 
-                strokeWidth={2} 
-              />
-            </Line>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={analytics}>
+                <XAxis dataKey="date" />
+                <YAxis domain={[1, 5]} />
+                <Tooltip />
+                <Line 
+                  type="monotone" 
+                  dataKey="average_mood_intensity" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth={2} 
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </Card>
       )}
