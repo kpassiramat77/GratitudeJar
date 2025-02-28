@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
+import { Calendar, Edit, Trash, Heart } from "lucide-react";
 import { useAuthStore } from "@/lib/auth-store";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -10,6 +11,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 interface GratitudeEntry {
   id: string;
@@ -211,89 +214,109 @@ const Jar = () => {
     fetchEntries();
   }, [user, activeFilter, sortOrder, dateRange]);
 
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    return format(new Date(dateString), "MMM d, yyyy");
+  };
+
   return (
-    <div className="min-h-screen bg-white p-4">
-      <h1 className="text-4xl font-bold mb-6 text-gray-900">My Gratitude Jar</h1>
-      
-      <div className="flex gap-2 overflow-x-auto pb-4 mb-4">
-        {Object.entries(moodEmojis).map(([mood, { src, alt, color }]) => (
-          <Button
-            key={mood}
-            onClick={() => setActiveFilter(activeFilter === mood ? null : mood)}
-            className={`rounded-full px-6 py-2 flex items-center gap-2 ${
-              activeFilter === mood 
-                ? 'bg-purple-100 text-purple-900' 
-                : 'bg-purple-50 text-gray-700 hover:bg-purple-100'
-            }`}
-            variant="ghost"
-          >
-            <img 
-              src={src} 
-              alt={alt}
-              className="w-6 h-6 object-contain"
-            />
-            <span className="font-medium capitalize">{mood}</span>
-          </Button>
-        ))}
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-white to-purple-50 p-4 pb-24">
+      <div className="max-w-4xl mx-auto">
+        <header className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900">My Gratitude Jar</h1>
+          <p className="text-purple-600 mt-2">Collection of moments that bring joy to your life</p>
+        </header>
+        
+        <Card className="mb-6 border-purple-100 shadow-sm">
+          <CardContent className="p-4">
+            <h2 className="text-lg font-medium mb-3">Filter by Mood</h2>
+            <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-purple-200">
+              {Object.entries(moodEmojis).map(([mood, { src, alt, color }]) => (
+                <Button
+                  key={mood}
+                  onClick={() => setActiveFilter(activeFilter === mood ? null : mood)}
+                  className={`rounded-full px-4 py-1 flex items-center gap-2 flex-shrink-0 ${
+                    activeFilter === mood 
+                      ? 'bg-purple-100 text-purple-900 shadow-inner' 
+                      : 'bg-white text-gray-700 hover:bg-purple-50 border border-purple-100'
+                  }`}
+                  variant="ghost"
+                >
+                  <img 
+                    src={src} 
+                    alt={alt}
+                    className="w-5 h-5 object-contain"
+                  />
+                  <span className="font-medium capitalize">{mood}</span>
+                </Button>
+              ))}
+            </div>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        <Button
-          variant="ghost"
-          className={`rounded-full px-6 py-2 ${
-            !activeFilter && 'bg-purple-100 text-purple-900'
-          }`}
-          onClick={() => setActiveFilter(null)}
-        >
-          ❤️ Favorites
-        </Button>
-        <Button
-          variant="ghost"
-          className="rounded-full px-6 py-2"
-          onClick={() => setSortOrder(sortOrder === "newest" ? "oldest" : "newest")}
-        >
-          🕒 {sortOrder === "newest" ? "Newest First" : "Oldest First"}
-        </Button>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="ghost"
-              className={`rounded-full px-6 py-2 ${
-                dateRange?.from ? 'bg-purple-100 text-purple-900' : ''
-              }`}
-            >
-              <Calendar className="w-4 h-4 mr-2" />
-              {dateRange?.from ? (
-                dateRange.to ? (
-                  <>
-                    {format(dateRange.from, "LLL dd, y")} -{" "}
-                    {format(dateRange.to, "LLL dd, y")}
-                  </>
-                ) : (
-                  format(dateRange.from, "LLL dd, y")
-                )
-              ) : (
-                "Select Date Range"
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <CalendarComponent
-              initialFocus
-              mode="range"
-              defaultMonth={dateRange?.from}
-              selected={dateRange}
-              onSelect={setDateRange}
-              numberOfMonths={2}
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
+            <Separator className="my-4" />
 
-      <div className="space-y-4">
+            <div className="flex flex-wrap gap-2 mt-4">
+              <Button
+                variant="outline"
+                className={`rounded-full px-5 py-1 ${
+                  !activeFilter ? 'bg-purple-100 border-purple-200 text-purple-900' : ''
+                }`}
+                onClick={() => setActiveFilter(null)}
+              >
+                ❤️ All Entries
+              </Button>
+              <Button
+                variant="outline"
+                className="rounded-full px-5 py-1"
+                onClick={() => setSortOrder(sortOrder === "newest" ? "oldest" : "newest")}
+              >
+                {sortOrder === "newest" ? "⌛ Newest First" : "⏳ Oldest First"}
+              </Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={`rounded-full px-5 py-1 ${
+                      dateRange?.from ? 'bg-purple-100 border-purple-200 text-purple-900' : ''
+                    }`}
+                  >
+                    <Calendar className="w-4 h-4 mr-2" />
+                    {dateRange?.from ? (
+                      dateRange.to ? (
+                        <>
+                          {format(dateRange.from, "LLL dd")} - {format(dateRange.to, "LLL dd, y")}
+                        </>
+                      ) : (
+                        format(dateRange.from, "LLL dd, y")
+                      )
+                    ) : (
+                      "Date Range"
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarComponent
+                    initialFocus
+                    mode="range"
+                    defaultMonth={dateRange?.from}
+                    selected={dateRange}
+                    onSelect={setDateRange}
+                    numberOfMonths={2}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </CardContent>
+        </Card>
+
         {entries.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-600 mb-4">Start adding gratitude moments to fill your jar!</p>
+          <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-purple-100">
+            <img 
+              src="/lovable-uploads/fb3c5db8-5a82-46cc-b05f-01beed3c07ca.png" 
+              alt="Empty jar" 
+              className="w-24 h-24 mx-auto mb-6 opacity-50"
+            />
+            <h3 className="text-xl font-medium text-gray-600 mb-2">Your jar is empty</h3>
+            <p className="text-gray-500 mb-6 max-w-md mx-auto">Start adding gratitude moments to fill your jar with positive memories!</p>
             <Button 
               onClick={() => navigate('/create')}
               className="bg-purple-600 hover:bg-purple-700"
@@ -302,46 +325,84 @@ const Jar = () => {
             </Button>
           </div>
         ) : (
-          entries.map((entry) => (
-            <div
-              key={entry.id}
-              className="p-6 rounded-3xl shadow-sm"
-              style={{ 
-                backgroundColor: entry.sticker?.color || moodEmojis['happy'].color
-              }}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {entries.map((entry) => (
+              <Card
+                key={entry.id}
+                className="overflow-hidden transition-all duration-200 hover:shadow-md"
+                style={{ 
+                  borderColor: entry.sticker?.color || moodEmojis['happy'].color
+                }}
+              >
+                <div 
+                  className="p-1"
+                  style={{ 
+                    backgroundColor: entry.sticker?.color || moodEmojis['happy'].color
+                  }}
+                />
+                <CardContent className="p-5">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <img 
+                        src={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.src || moodEmojis['happy'].src}
+                        alt={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.alt || moodEmojis['happy'].alt}
+                        className="w-8 h-8 object-contain"
+                      />
+                      <div>
+                        <p className="text-sm text-gray-500">{formatDate(entry.created_at)}</p>
+                        <p className="text-xs capitalize text-purple-700">{entry.sticker?.mood || 'happy'}</p>
+                      </div>
+                    </div>
+                    {entry.is_favorite && (
+                      <div className="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs font-medium">
+                        Favorite
+                      </div>
+                    )}
+                  </div>
+                  
+                  <p className="text-gray-800 text-lg leading-relaxed mb-4">{entry.content}</p>
+                  
+                  <div className="flex gap-3 mt-4 justify-end">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      className="text-gray-500 hover:text-gray-900 p-2"
+                      onClick={() => navigate(`/edit/${entry.id}`)}
+                    >
+                      <Edit size={18} />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      className="text-gray-500 hover:text-red-600 p-2"
+                      onClick={() => handleDeleteEntry(entry.id)}
+                    >
+                      <Trash size={18} />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      className={`p-2 ${entry.is_favorite ? 'text-pink-500 hover:text-pink-700' : 'text-gray-500 hover:text-pink-500'}`}
+                      onClick={() => handleToggleFavorite(entry)}
+                    >
+                      <Heart size={18} fill={entry.is_favorite ? "currentColor" : "none"} />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+        
+        {entries.length > 0 && (
+          <div className="fixed bottom-20 right-6 z-10">
+            <Button 
+              className="rounded-full h-14 w-14 shadow-lg bg-purple-600 hover:bg-purple-700"
+              onClick={() => navigate('/create')}
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <img 
-                    src={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.src || moodEmojis['happy'].src}
-                    alt={moodEmojis[entry.sticker?.mood as keyof typeof moodEmojis]?.alt || moodEmojis['happy'].alt}
-                    className="w-12 h-12 mb-4 object-contain"
-                  />
-                  <p className="text-gray-800 text-lg">{entry.content}</p>
-                </div>
-              </div>
-              <div className="flex gap-4 mt-4">
-                <button 
-                  className="text-gray-600 hover:text-gray-900"
-                  onClick={() => navigate(`/edit/${entry.id}`)}
-                >
-                  ✏️
-                </button>
-                <button 
-                  className="text-gray-600 hover:text-gray-900"
-                  onClick={() => handleDeleteEntry(entry.id)}
-                >
-                  🗑️
-                </button>
-                <button 
-                  className="text-gray-600 hover:text-gray-900"
-                  onClick={() => handleToggleFavorite(entry)}
-                >
-                  {entry.is_favorite ? '❤️' : '🤍'}
-                </button>
-              </div>
-            </div>
-          ))
+              <span className="text-2xl">+</span>
+            </Button>
+          </div>
         )}
       </div>
     </div>
