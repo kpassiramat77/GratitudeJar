@@ -14,27 +14,27 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Soft purple from the jar design */
-    --primary: 280 85% 75%;
+    /* Consistent rose-purple as the primary color */
+    --primary: 350 85% 70%;
     --primary-foreground: 0 0% 100%;
 
-    /* Light lavender for secondary */
-    --secondary: 280 100% 97%;
-    --secondary-foreground: 280 60% 30%;
+    /* Light rose for secondary */
+    --secondary: 350 100% 97%;
+    --secondary-foreground: 350 60% 30%;
 
-    --muted: 280 60% 97%;
-    --muted-foreground: 280 30% 50%;
+    --muted: 350 60% 97%;
+    --muted-foreground: 350 30% 50%;
 
-    --accent: 280 85% 97%;
-    --accent-foreground: 280 60% 30%;
+    --accent: 350 85% 97%;
+    --accent-foreground: 350 60% 30%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    /* Soft borders */
-    --border: 280 60% 95%;
-    --input: 280 60% 95%;
-    --ring: 280 85% 75%;
+    /* Soft borders matching the theme */
+    --border: 350 60% 95%;
+    --input: 350 60% 95%;
+    --ring: 350 85% 75%;
 
     --radius: 1rem;
   }
@@ -49,8 +49,8 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    /* Keep soft purple in dark mode */
-    --primary: 280 85% 75%;
+    /* Consistent rose-purple in dark mode */
+    --primary: 350 85% 70%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -67,7 +67,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 280 85% 75%;
+    --ring: 350 85% 75%;
   }
 }
 
@@ -89,10 +89,14 @@
 /* Custom gradient backgrounds */
 @layer utilities {
   .bg-pastel-gradient {
-    @apply bg-gradient-to-r from-white via-[#F8F0FF] to-white;
+    @apply bg-gradient-to-r from-white via-rose-50 to-white;
   }
   
   .bg-pastel-gradient-vertical {
-    @apply bg-gradient-to-b from-white via-[#F8F0FF] to-white;
+    @apply bg-gradient-to-b from-white via-rose-50 to-white;
+  }
+  
+  .app-gradient {
+    @apply bg-gradient-to-b from-rose-50 to-teal-50;
   }
 }

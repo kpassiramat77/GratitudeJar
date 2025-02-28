@@ -46,7 +46,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4">
+    <div className="min-h-screen app-gradient p-4">
       <div className="max-w-md mx-auto space-y-4">
         <div className="text-center pt-2 space-y-2 relative">
           <button

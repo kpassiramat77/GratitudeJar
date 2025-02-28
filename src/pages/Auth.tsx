@@ -46,7 +46,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4">
+    <div className="min-h-screen app-gradient p-4">
       <div className="max-w-md mx-auto">
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
           <CardHeader>
@@ -96,4 +96,3 @@ const Auth = () => {
 };
 
 export default Auth;
-

@@ -69,7 +69,7 @@ export const GratitudeForm = ({
           type="button"
           variant="ghost"
           onClick={onCancel}
-          className="w-full text-gray-600 hover:text-gray-800 focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
+          className="w-full text-gray-600 hover:text-gray-800 focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
           aria-label="Cancel and go back"
         >
           Cancel
