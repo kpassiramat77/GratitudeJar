@@ -2,13 +2,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bot } from "lucide-react";
-import { useAuthStore } from "@/lib/auth-store";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { ChatTypingIndicator } from "@/components/chat/ChatTypingIndicator";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { ChatWelcomeMessage } from "@/components/chat/ChatWelcomeMessage";
+import { v4 as uuidv4 } from "uuid";
 
 interface Message {
   id: string;
@@ -25,7 +25,7 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { user } = useAuthStore();
+  const [sessionId] = useState(() => uuidv4());
   const { toast } = useToast();
 
   const scrollToBottom = () => {
@@ -33,82 +33,47 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      loadMessages();
-      // Subscribe to new messages
-      const channel = supabase
-        .channel('chat_updates')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'conversations',
-            filter: `user_id=eq.${user.id}`,
-          },
-          (payload) => {
-            const newMessage = payload.new as Message;
-            setMessages((prev) => [...prev, newMessage]);
-          }
-        )
-        .subscribe();
-
-      return () => {
-        supabase.removeChannel(channel);
-      };
-    }
-  }, [user]);
-
-  useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const loadMessages = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('conversations')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      if (data) {
-        setMessages(data);
-      }
-    } catch (error) {
-      console.error('Error loading messages:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load messages",
-        variant: "destructive",
-      });
-    }
-  };
-
   const handleSend = async () => {
-    if (!message.trim() || !user) return;
+    if (!message.trim()) return;
 
     setIsLoading(true);
     setIsTyping(true);
     const userMessage = message;
     setMessage("");
 
+    // Create a unique ID for the message
+    const messageId = uuidv4();
+    
+    // Add user message to the local state immediately
+    const newUserMessage = {
+      id: messageId,
+      message: userMessage,
+      is_ai: false,
+      created_at: new Date().toISOString(),
+      session_id: sessionId
+    };
+    
+    setMessages(prev => [...prev, newUserMessage]);
+
     try {
-      const { error: insertError } = await supabase
-        .from('conversations')
-        .insert({
-          message: userMessage,
-          is_ai: false,
-          user_id: user.id
-        });
-
-      if (insertError) throw insertError;
-
-      const { error } = await supabase.functions.invoke('chat-with-jari', {
-        body: { message: userMessage, userId: user.id },
-      });
-
-      if (error) throw error;
+      // Simulate AI response after a delay
+      setTimeout(() => {
+        const aiResponse = {
+          id: uuidv4(),
+          message: "Thank you for sharing. It's wonderful to reflect on the things we're grateful for. Is there anything else you'd like to share?",
+          is_ai: true,
+          created_at: new Date().toISOString(),
+          session_id: sessionId
+        };
+        
+        setMessages(prev => [...prev, aiResponse]);
+        setIsLoading(false);
+        setIsTyping(false);
+      }, 1500);
+      
     } catch (error) {
       console.error('Error sending message:', error);
       toast({
@@ -116,7 +81,6 @@ const Chat = () => {
         description: "Failed to send message",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
       setIsTyping(false);
     }

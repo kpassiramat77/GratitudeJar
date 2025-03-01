@@ -1,8 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuthStore } from "@/lib/auth-store";
 import { StickerCustomizer, type StickerConfig, type Mood } from "@/components/sticker/StickerCustomizer";
 import { GratitudeForm } from "@/components/gratitude/GratitudeForm";
 import { stickerConfigToJson } from "@/utils/sticker-utils";
@@ -39,22 +39,15 @@ const Create = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { id } = useParams();
-  const user = useAuthStore((state) => state.user);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
     if (id) {
       const fetchGratitude = async () => {
         const { data, error } = await supabase
           .from('gratitudes')
           .select('*')
           .eq('id', id)
-          .eq('user_id', user.id)
           .single();
 
         if (error) {
@@ -83,49 +76,7 @@ const Create = () => {
 
       fetchGratitude();
     }
-  }, [user, id, navigate, toast]);
-
-  const updateStreakAndAnalytics = async (userId: string) => {
-    const today = new Date().toISOString().split('T')[0];
-    
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('current_streak, longest_streak, last_gratitude_date')
-      .eq('id', userId)
-      .single();
-
-    if (profile) {
-      const lastDate = profile.last_gratitude_date;
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = yesterday.toISOString().split('T')[0];
-
-      let newStreak = 1;
-      if (lastDate === yesterdayStr) {
-        newStreak = profile.current_streak + 1;
-      }
-
-      await supabase
-        .from('profiles')
-        .update({
-          current_streak: newStreak,
-          longest_streak: Math.max(newStreak, profile.longest_streak || 0),
-          last_gratitude_date: today
-        })
-        .eq('id', userId);
-
-      await supabase
-        .from('mood_analytics')
-        .upsert({
-          user_id: userId,
-          date: today,
-          average_mood_intensity: moodIntensity,
-          total_entries: 1
-        }, {
-          onConflict: 'user_id,date'
-        });
-    }
-  };
+  }, [id, navigate, toast]);
 
   const handleSubmit = async () => {
     if (!gratitudeText.trim()) {
@@ -138,17 +89,10 @@ const Create = () => {
       return;
     }
 
-    if (!user) {
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to save gratitudes",
-        variant: "destructive",
-        duration: 500,
-      });
-      return;
-    }
-
     try {
+      // Generate a random UUID to use as a user_id since we're not using auth
+      const randomUserId = crypto.randomUUID();
+      
       if (id) {
         const { error } = await supabase
           .from('gratitudes')
@@ -158,8 +102,7 @@ const Create = () => {
             sticker: stickerConfigToJson(stickerConfig),
             mood_intensity: moodIntensity
           })
-          .eq('id', id)
-          .eq('user_id', user.id);
+          .eq('id', id);
 
         if (error) throw error;
 
@@ -174,14 +117,12 @@ const Create = () => {
           .insert({
             content: gratitudeText.trim(),
             is_public: isPublic,
-            user_id: user.id,
+            user_id: randomUserId,
             sticker: stickerConfigToJson(stickerConfig),
             mood_intensity: moodIntensity
           });
 
         if (error) throw error;
-
-        await updateStreakAndAnalytics(user.id);
 
         toast({
           title: "Added to your Gratitude Jar",
