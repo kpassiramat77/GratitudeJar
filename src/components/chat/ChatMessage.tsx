@@ -35,21 +35,21 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
       role="listitem"
     >
       {message.is_ai && (
-        <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center transition-all-fast hover:shadow-md dark:bg-rose-950 dark:text-rose-300" aria-hidden="true">
-          <Bot className="h-6 w-6 text-rose-500 dark:text-rose-300" />
+        <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center" aria-hidden="true">
+          <Bot className="h-6 w-6 text-rose-500" />
         </div>
       )}
       <div
         className={cn(
-          "rounded-2xl p-4 max-w-[85%] relative group transition-all-fast card-hover",
+          "rounded-2xl p-4 max-w-[85%] relative group shadow-sm transition-all duration-200 hover:shadow-md",
           message.is_ai 
-            ? "bg-gray-100 text-gray-800 animate-slide-in-left dark:bg-gray-800 dark:text-gray-100" 
-            : "bg-rose-500 text-white animate-slide-in-right dark:bg-rose-600"
+            ? "bg-gray-100 text-gray-800" 
+            : "bg-rose-500 text-white"
         )}
       >
         <p className={cn(
           "text-base leading-relaxed mb-2",
-          message.is_ai ? "text-gray-700 dark:text-gray-200" : "text-white"
+          message.is_ai ? "text-gray-700" : "text-white"
         )}>
           {message.message}
         </p>
@@ -57,7 +57,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
           className={cn(
             "text-xs transition-opacity",
             showTimestamp ? "opacity-100" : "opacity-50",
-            message.is_ai ? "text-gray-500 dark:text-gray-400" : "text-rose-100"
+            message.is_ai ? "text-gray-500" : "text-rose-100"
           )}
           aria-label="Message sent at"
         >

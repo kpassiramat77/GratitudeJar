@@ -13,7 +13,7 @@ interface ChatInputProps {
 
 export const ChatInput = ({ message, isLoading, onMessageChange, onSend }: ChatInputProps) => {
   return (
-    <div className="border-t p-4 bg-white/50 backdrop-blur-sm transition-all-fast dark:bg-gray-800/90 dark:border-gray-700">
+    <div className="border-t p-4 bg-white/50 backdrop-blur-sm">
       <form 
         className="flex space-x-3 max-w-3xl mx-auto"
         onSubmit={(e) => {
@@ -26,13 +26,13 @@ export const ChatInput = ({ message, isLoading, onMessageChange, onSend }: ChatI
           value={message}
           onChange={(e) => onMessageChange(e.target.value)}
           disabled={isLoading}
-          className="flex-1 bg-white border-gray-200 focus:ring-rose-200 transition-all-fast dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-400"
+          className="flex-1 bg-white border-gray-200 focus:ring-rose-200"
           aria-label="Message input"
         />
         <Button 
           type="submit"
           className={cn(
-            "bg-rose-500 hover:bg-rose-600 transition-all-fast shadow-lg hover:shadow-xl button-effect dark:bg-rose-600 dark:hover:bg-rose-700",
+            "bg-rose-500 hover:bg-rose-600 transition-colors shadow-lg hover:shadow-xl",
             isLoading && "opacity-50 cursor-not-allowed"
           )}
           disabled={isLoading || !message.trim()}

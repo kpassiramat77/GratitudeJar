@@ -7,46 +7,67 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
+
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 346.8 77.2% 49.8%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 346.8 77.2% 49.8%;
-    --secondary-foreground: 355.7 100% 97.3%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+
+    /* Consistent rose-purple as the primary color */
+    --primary: 350 85% 70%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Light rose for secondary */
+    --secondary: 350 100% 97%;
+    --secondary-foreground: 350 60% 30%;
+
+    --muted: 350 60% 97%;
+    --muted-foreground: 350 30% 50%;
+
+    --accent: 350 85% 97%;
+    --accent-foreground: 350 60% 30%;
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 346.8 77.2% 49.8%;
-    --radius: 0.5rem;
+
+    /* Soft borders matching the theme */
+    --border: 350 60% 95%;
+    --input: 350 60% 95%;
+    --ring: 350 85% 75%;
+
+    --radius: 1rem;
   }
 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
+
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
+
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 346.8 77.2% 49.8%;
-    --primary-foreground: 355.7 100% 97.3%;
+
+    /* Consistent rose-purple in dark mode */
+    --primary: 350 85% 70%;
+    --primary-foreground: 0 0% 100%;
+
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
+
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
+
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 346.8 77.2% 49.8%;
+    --ring: 350 85% 75%;
   }
 }
 
@@ -54,16 +75,37 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Add padding to the bottom of the page when navigation is present */
+  body.has-navigation {
+    padding-bottom: calc(4rem + 1px); /* 4rem for the nav height plus 1px for the border */
+  }
 }
 
-/* Animations for elements */
-@keyframes fadeIn {
+/* Custom gradient backgrounds */
+@layer utilities {
+  .bg-pastel-gradient {
+    @apply bg-gradient-to-r from-white via-rose-50 to-white;
+  }
+  
+  .bg-pastel-gradient-vertical {
+    @apply bg-gradient-to-b from-white via-rose-50 to-white;
+  }
+  
+  .app-gradient {
+    @apply bg-gradient-to-b from-rose-50 to-teal-50;
+  }
+}
+
+/* Animation utilities */
+@keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -71,7 +113,7 @@
   }
 }
 
-@keyframes scaleIn {
+@keyframes scale-in {
   from {
     transform: scale(0.95);
     opacity: 0;
@@ -82,141 +124,26 @@
   }
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
+  animation: fade-in 0.3s ease-out forwards;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.3s ease-out forwards;
+  animation: scale-in 0.2s ease-out forwards;
 }
 
-.animate-slide-in-right {
-  animation: slideInRight 0.3s ease-out forwards;
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.3s ease-out forwards;
-}
-
-.animate-pulse-once {
-  animation: pulse 0.5s ease-in-out;
-}
-
-.transition-color {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.transition-transform {
-  transition: transform 0.2s ease;
-}
-
-.transition-all-fast {
-  transition: all 0.2s ease;
-}
-
+/* Interactive animations */
 .hover-scale {
-  transition: transform 0.2s ease;
+  @apply transition-transform duration-200 hover:scale-105;
 }
 
-.hover-scale:hover {
-  transform: scale(1.02);
+.hover-lift {
+  @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
 }
 
-.app-gradient {
-  background: linear-gradient(135deg, #fff5f7 0%, #fff 100%);
-}
-
-.dark .app-gradient {
-  background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%);
-}
-
-.page-transition {
-  animation: fadeIn 0.4s ease-out;
-}
-
-/* Card hover effects */
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-}
-
-.dark .card-hover:hover {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
-}
-
-/* Button effects */
-.button-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.button-effect:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.4);
-  opacity: 0;
-  border-radius: 100%;
-  transform: scale(1, 1) translate(-50%, -50%);
-  transform-origin: 50% 50%;
-}
-
-.button-effect:focus:not(:active)::after {
-  animation: ripple 0.6s ease-out;
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0, 0);
-    opacity: 0.5;
-  }
-  20% {
-    transform: scale(25, 25);
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(40, 40);
-  }
-}
+/* Staggered children animations */
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
