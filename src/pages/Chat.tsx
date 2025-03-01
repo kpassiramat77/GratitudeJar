@@ -123,17 +123,17 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen app-gradient p-4 md:p-8 pb-24">
+    <div className="min-h-screen app-gradient p-4 md:p-8 pb-24 page-transition">
       <div className="max-w-3xl mx-auto">
-        <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
-          <CardHeader className="border-b">
+        <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl animate-scale-in dark:bg-gray-800/90 dark:text-white">
+          <CardHeader className="border-b dark:border-gray-700">
             <CardTitle className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
-                <Bot className="h-6 w-6 text-rose-500" />
+              <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center transition-all-fast hover:shadow-md dark:bg-rose-950 dark:text-rose-300">
+                <Bot className="h-6 w-6 text-rose-500 dark:text-rose-300" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-800">Chat with Jari</h2>
-                <p className="text-sm text-gray-500 font-normal">Your AI gratitude companion</p>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Chat with Jari</h2>
+                <p className="text-sm text-gray-500 font-normal dark:text-gray-400">Your AI gratitude companion</p>
               </div>
             </CardTitle>
           </CardHeader>
