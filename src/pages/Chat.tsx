@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bot } from "lucide-react";
+import { Bot, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { ChatMessage } from "@/components/chat/ChatMessage";
@@ -9,6 +9,7 @@ import { ChatTypingIndicator } from "@/components/chat/ChatTypingIndicator";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { ChatWelcomeMessage } from "@/components/chat/ChatWelcomeMessage";
 import { v4 as uuidv4 } from "uuid";
+import { Button } from "@/components/ui/button";
 
 interface Message {
   id: string;
@@ -86,11 +87,19 @@ const Chat = () => {
     }
   };
 
+  const clearChat = () => {
+    setMessages([]);
+    toast({
+      title: "Chat cleared",
+      description: "All messages have been cleared",
+    });
+  };
+
   return (
     <div className="min-h-screen app-gradient p-4 md:p-8 pb-24">
       <div className="max-w-3xl mx-auto">
         <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
-          <CardHeader className="border-b">
+          <CardHeader className="border-b flex flex-row items-center justify-between">
             <CardTitle className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
                 <Bot className="h-6 w-6 text-rose-500" />
@@ -100,6 +109,17 @@ const Chat = () => {
                 <p className="text-sm text-gray-500 font-normal">Your AI gratitude companion</p>
               </div>
             </CardTitle>
+            {messages.length > 0 && (
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={clearChat} 
+                className="text-gray-500 hover:text-rose-500 hover:bg-rose-50"
+                aria-label="Clear chat"
+              >
+                <Trash2 className="h-5 w-5" />
+              </Button>
+            )}
           </CardHeader>
           <CardContent className="p-0">
             <div className="h-[70vh] flex flex-col">
