@@ -14,26 +14,33 @@ interface ChatInputProps {
 export const ChatInput = ({ message, isLoading, onMessageChange, onSend }: ChatInputProps) => {
   return (
     <div className="border-t p-4 bg-white/50 backdrop-blur-sm">
-      <div className="flex space-x-3 max-w-3xl mx-auto">
+      <form 
+        className="flex space-x-3 max-w-3xl mx-auto"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!isLoading && message.trim()) onSend();
+        }}
+      >
         <Input
           placeholder="Type your message..."
           value={message}
           onChange={(e) => onMessageChange(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && !isLoading && onSend()}
           disabled={isLoading}
           className="flex-1 bg-white border-gray-200 focus:ring-rose-200"
+          aria-label="Message input"
         />
         <Button 
-          onClick={onSend} 
+          type="submit"
           className={cn(
             "bg-rose-500 hover:bg-rose-600 transition-colors shadow-lg hover:shadow-xl",
             isLoading && "opacity-50 cursor-not-allowed"
           )}
-          disabled={isLoading}
+          disabled={isLoading || !message.trim()}
+          aria-label="Send message"
         >
           <Send className="h-4 w-4" />
         </Button>
-      </div>
+      </form>
     </div>
   );
 };

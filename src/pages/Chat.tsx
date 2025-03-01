@@ -123,7 +123,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-teal-50 p-4 md:p-8 pb-24">
+    <div className="min-h-screen app-gradient p-4 md:p-8 pb-24">
       <div className="max-w-3xl mx-auto">
         <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
           <CardHeader className="border-b">
@@ -139,7 +139,7 @@ const Chat = () => {
           </CardHeader>
           <CardContent className="p-0">
             <div className="h-[70vh] flex flex-col">
-              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+              <div className="flex-1 overflow-y-auto p-6 space-y-6" role="log" aria-live="polite" aria-label="Chat messages">
                 {messages.length === 0 && <ChatWelcomeMessage />}
                 {messages.map((msg) => (
                   <ChatMessage key={msg.id} message={msg} />

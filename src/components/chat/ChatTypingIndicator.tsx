@@ -3,7 +3,7 @@ import { Bot } from "lucide-react";
 
 export const ChatTypingIndicator = () => {
   return (
-    <div className="flex items-start space-x-3 animate-fade-in">
+    <div className="flex items-start space-x-3 animate-fade-in" role="status" aria-label="Jari is typing">
       <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
         <Bot className="h-6 w-6 text-rose-500" />
       </div>

@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
 
 interface GratitudeFormProps {
   gratitudeText: string;
@@ -20,13 +21,17 @@ export const GratitudeForm = ({
   onSubmit,
   onCancel
 }: GratitudeFormProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const characterCount = gratitudeText.length;
+  const isValid = gratitudeText.trim().length > 0;
+
   return (
     <form 
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit();
+        if (isValid) onSubmit();
       }}
-      className="space-y-3"
+      className="space-y-3 animate-fade-in"
       role="form"
       aria-label="Gratitude entry form"
     >
@@ -42,25 +47,35 @@ export const GratitudeForm = ({
           placeholder="Express your gratitude..."
           value={gratitudeText}
           onChange={(e) => onGratitudeChange(e.target.value)}
-          className="min-h-[80px] resize-none text-base"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className={`min-h-[80px] resize-none text-base transition-all duration-200 ${isFocused ? 'shadow-md border-rose-300' : ''}`}
           aria-required="true"
           aria-invalid={!gratitudeText.trim()}
-          aria-describedby="gratitude-hint"
+          aria-describedby="gratitude-hint gratitude-count"
         />
-        <span 
-          id="gratitude-hint" 
-          className="text-sm text-gray-600"
-        >
-          Write about something you're thankful for today
-        </span>
+        <div className="flex justify-between items-center text-sm">
+          <span 
+            id="gratitude-hint" 
+            className="text-gray-600"
+          >
+            Write about something you're thankful for today
+          </span>
+          <span 
+            id="gratitude-count"
+            className={`text-xs ${characterCount > 280 ? 'text-rose-500' : 'text-gray-500'}`}
+          >
+            {characterCount}/300
+          </span>
+        </div>
       </div>
 
       <div className="space-y-3">
         <Button 
           type="submit"
-          disabled={!gratitudeText.trim()}
-          className="w-full bg-rose-500 hover:bg-rose-600 text-white py-3 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
-          aria-label={!gratitudeText.trim() ? "Please write your gratitude before saving" : "Save your gratitude"}
+          disabled={!isValid}
+          className="w-full bg-rose-500 hover:bg-rose-600 text-white py-3 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
+          aria-label={!isValid ? "Please write your gratitude before saving" : "Save your gratitude"}
         >
           ✨ Add to my Gratitude Jar
         </Button>
